@@ -10,7 +10,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,7 +26,7 @@ public class Login extends javax.swing.JFrame {
         Image favicon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/favicon.png"));
         this.setIconImage(favicon);
         this.setVisible(true);
-
+        
     }
 
     /**
@@ -128,28 +127,28 @@ public class Login extends javax.swing.JFrame {
             txtUsername.setText("");
         }
     }//GEN-LAST:event_txtUsernameFocusGained
-
+    
     private void txtUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusLost
         if (txtUsername.getText().equalsIgnoreCase("")) {
             txtUsername.setText("Username");
         }
     }//GEN-LAST:event_txtUsernameFocusLost
-
+    
     private void txtPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusGained
         if (txtPassword.getText().equalsIgnoreCase("PasswordDefault")) {
             txtPassword.setText("");
         }
     }//GEN-LAST:event_txtPasswordFocusGained
-
+    
     private void txtPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusLost
         if (txtPassword.getText().equalsIgnoreCase("")) {
             txtPassword.setText("PasswordDefault");
         }
     }//GEN-LAST:event_txtPasswordFocusLost
-
+    
     private void bttLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttLoginMousePressed
         CheckAccount ca = new CheckAccount();
-
+        
         try {
             checkAccount = ca.isTrue(txtUsername.getText(), txtPassword.getText());
         } catch (Exception ex) {
@@ -159,17 +158,18 @@ public class Login extends javax.swing.JFrame {
             lblLoginFail.setText("Login successfully.");
             Home home = new Home();
             home.setVisible(true);
+            home.setCashier(txtUsername.getText());
             this.dispose();
             home.pack();
             home.setLocationRelativeTo(null);
             this.dispose();
         } else {
             lblLoginFail.setText("Username or password is incorrect.");
-
+            
         }
-
+        
     }//GEN-LAST:event_bttLoginMousePressed
-
+    
     private void backgroundMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backgroundMousePressed
         if (txtUsername.getText().equalsIgnoreCase("")) {
             txtUsername.setText("Username");
@@ -213,7 +213,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-
+    
     public boolean checkAccount = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;

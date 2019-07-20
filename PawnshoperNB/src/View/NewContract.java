@@ -6,6 +6,8 @@
 package View;
 
 import Controller.Validation;
+import Model.AssetModel;
+import Model.ContractModel;
 import Model.CustomerModel;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -27,12 +29,17 @@ public class NewContract extends javax.swing.JFrame {
      */
     public NewContract() throws Exception {
         this.customerModel = new CustomerModel();
+        this.contractModel = new ContractModel();
+        this.assetModel = new AssetModel();
         initComponents();
         Image favicon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/favicon.png"));
         this.setLocationRelativeTo(null);
         this.setIconImage(favicon);
         imgContractImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/CustomerImages/0.png")));
+        this.getRootPane().setDefaultButton(btnNewContract);
         chsDateRange.setDate(Validation.currentDate());
+        chsStartDate.setDate(Validation.currentDate());
+        chsEndDate.setDate(Validation.currentDate());
     }
 
     public void setCustomerInfo(int customerId) throws ParseException {
@@ -76,43 +83,44 @@ public class NewContract extends javax.swing.JFrame {
         chkGroup = new javax.swing.ButtonGroup();
         chkNewCustomer = new javax.swing.JRadioButton();
         chkOldCustomer = new javax.swing.JRadioButton();
-        chsDateRange = new com.toedter.calendar.JDateChooser();
-        lblEndDate = new javax.swing.JLabel();
-        dateEndDate = new datechooser.beans.DateChooserCombo();
-        lblLicensePlate = new javax.swing.JLabel();
-        txtLicensePlate = new javax.swing.JTextField();
-        txtChassisId = new javax.swing.JTextField();
-        lblChassisId = new javax.swing.JLabel();
         lblEnginesId = new javax.swing.JLabel();
         txtEnginesId = new javax.swing.JTextField();
-        txtLoanAmount = new javax.swing.JTextField();
-        lblLoanAmount = new javax.swing.JLabel();
+        txtChassisId = new javax.swing.JTextField();
+        lblChassisId = new javax.swing.JLabel();
+        txtLicensePlate = new javax.swing.JTextField();
+        lblLicensePlate = new javax.swing.JLabel();
+        txtAssetName = new javax.swing.JTextField();
+        lblAssetName = new javax.swing.JLabel();
+        txtNote = new javax.swing.JTextField();
+        lblNote = new javax.swing.JLabel();
+        chsEndDate = new com.toedter.calendar.JDateChooser();
+        lblEndDate = new javax.swing.JLabel();
+        chsStartDate = new com.toedter.calendar.JDateChooser();
+        lblStartDate = new javax.swing.JLabel();
         txtInterestRate = new javax.swing.JTextField();
         lblInterestRate = new javax.swing.JLabel();
-        lblNote = new javax.swing.JLabel();
-        lblAddress = new javax.swing.JLabel();
-        txtAddress = new javax.swing.JTextField();
-        lblStartDate = new javax.swing.JLabel();
-        lblType = new javax.swing.JLabel();
-        lblCustomerName = new javax.swing.JLabel();
+        txtLoanAmount = new javax.swing.JTextField();
+        lblLoanAmount = new javax.swing.JLabel();
         cbType = new javax.swing.JComboBox<>();
-        lblRegisteredPlace = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
         txtRegisteredPlace = new javax.swing.JTextField();
+        lblRegisteredPlace = new javax.swing.JLabel();
+        chsDateRange = new com.toedter.calendar.JDateChooser();
         lblDateRange = new javax.swing.JLabel();
-        dateStartDate = new datechooser.beans.DateChooserCombo();
-        lblSocialId = new javax.swing.JLabel();
         txtSocialId = new javax.swing.JTextField();
-        lblPhoneNumber = new javax.swing.JLabel();
+        lblSocialId = new javax.swing.JLabel();
+        txtAddress = new javax.swing.JTextField();
+        lblAddress = new javax.swing.JLabel();
         txtPhoneNumber = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtNote = new javax.swing.JTextArea();
+        lblPhoneNumber = new javax.swing.JLabel();
         txtCustomerName = new javax.swing.JTextField();
+        lblCustomerName = new javax.swing.JLabel();
         imgContractImage = new javax.swing.JLabel();
         btnNewContract = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         bgContract = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Add new Contract");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -146,6 +154,195 @@ public class NewContract extends javax.swing.JFrame {
         });
         getContentPane().add(chkOldCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 110, -1, -1));
 
+        lblEnginesId.setBackground(new java.awt.Color(255, 255, 255));
+        lblEnginesId.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblEnginesId.setForeground(new java.awt.Color(30, 30, 30));
+        lblEnginesId.setText("Engines ID:");
+        getContentPane().add(lblEnginesId, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 530, -1, -1));
+
+        txtEnginesId.setBackground(new java.awt.Color(250, 250, 250));
+        txtEnginesId.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtEnginesId.setForeground(new java.awt.Color(30, 30, 30));
+        txtEnginesId.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtEnginesId.setBorder(null);
+        txtEnginesId.setDisabledTextColor(new java.awt.Color(187, 187, 187));
+        txtEnginesId.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtEnginesId.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtEnginesId.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtEnginesId.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtEnginesId, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 200, 30));
+
+        txtChassisId.setBackground(new java.awt.Color(250, 250, 250));
+        txtChassisId.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtChassisId.setForeground(new java.awt.Color(30, 30, 30));
+        txtChassisId.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtChassisId.setBorder(null);
+        txtChassisId.setDisabledTextColor(new java.awt.Color(187, 187, 187));
+        txtChassisId.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtChassisId.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtChassisId.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtChassisId.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtChassisId, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 560, 200, 30));
+
+        lblChassisId.setBackground(new java.awt.Color(255, 255, 255));
+        lblChassisId.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblChassisId.setForeground(new java.awt.Color(30, 30, 30));
+        lblChassisId.setText("Chassis ID:");
+        getContentPane().add(lblChassisId, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 530, -1, -1));
+
+        txtLicensePlate.setBackground(new java.awt.Color(250, 250, 250));
+        txtLicensePlate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtLicensePlate.setForeground(new java.awt.Color(30, 30, 30));
+        txtLicensePlate.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtLicensePlate.setBorder(null);
+        txtLicensePlate.setDisabledTextColor(new java.awt.Color(187, 187, 187));
+        txtLicensePlate.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtLicensePlate.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtLicensePlate.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtLicensePlate.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtLicensePlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 560, 200, 30));
+
+        lblLicensePlate.setBackground(new java.awt.Color(255, 255, 255));
+        lblLicensePlate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblLicensePlate.setForeground(new java.awt.Color(30, 30, 30));
+        lblLicensePlate.setText("License Plate:");
+        getContentPane().add(lblLicensePlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 530, -1, -1));
+
+        txtAssetName.setBackground(new java.awt.Color(250, 250, 250));
+        txtAssetName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtAssetName.setForeground(new java.awt.Color(30, 30, 30));
+        txtAssetName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtAssetName.setBorder(null);
+        txtAssetName.setDisabledTextColor(new java.awt.Color(187, 187, 187));
+        txtAssetName.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtAssetName.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtAssetName.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtAssetName.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtAssetName, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 560, 200, 30));
+
+        lblAssetName.setBackground(new java.awt.Color(255, 255, 255));
+        lblAssetName.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblAssetName.setForeground(new java.awt.Color(30, 30, 30));
+        lblAssetName.setText("AssetName");
+        getContentPane().add(lblAssetName, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, -1, -1));
+
+        txtNote.setBackground(new java.awt.Color(250, 250, 250));
+        txtNote.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtNote.setForeground(new java.awt.Color(30, 30, 30));
+        txtNote.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtNote.setBorder(null);
+        txtNote.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtNote.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtNote.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtNote.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtNote, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 440, 220, 30));
+
+        lblNote.setBackground(new java.awt.Color(255, 255, 255));
+        lblNote.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblNote.setForeground(new java.awt.Color(30, 30, 30));
+        lblNote.setText("Note:");
+        getContentPane().add(lblNote, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 410, -1, -1));
+
+        chsEndDate.setBackground(new java.awt.Color(255, 255, 255));
+        chsEndDate.setForeground(new java.awt.Color(30, 30, 30));
+        chsEndDate.setDateFormatString("yyyy-MM-dd");
+        chsEndDate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        chsEndDate.setMaximumSize(new java.awt.Dimension(220, 30));
+        chsEndDate.setMinimumSize(new java.awt.Dimension(220, 30));
+        chsEndDate.setPreferredSize(new java.awt.Dimension(220, 30));
+        getContentPane().add(chsEndDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 440, 220, 30));
+
+        lblEndDate.setBackground(new java.awt.Color(255, 255, 255));
+        lblEndDate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblEndDate.setForeground(new java.awt.Color(30, 30, 30));
+        lblEndDate.setText("End date:");
+        getContentPane().add(lblEndDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 410, -1, -1));
+
+        chsStartDate.setBackground(new java.awt.Color(255, 255, 255));
+        chsStartDate.setForeground(new java.awt.Color(30, 30, 30));
+        chsStartDate.setDateFormatString("yyyy-MM-dd");
+        chsStartDate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        chsStartDate.setMaximumSize(new java.awt.Dimension(220, 30));
+        chsStartDate.setMinimumSize(new java.awt.Dimension(220, 30));
+        chsStartDate.setPreferredSize(new java.awt.Dimension(220, 30));
+        getContentPane().add(chsStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 440, 220, 30));
+
+        lblStartDate.setBackground(new java.awt.Color(255, 255, 255));
+        lblStartDate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblStartDate.setForeground(new java.awt.Color(30, 30, 30));
+        lblStartDate.setText("Start date:");
+        getContentPane().add(lblStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 410, -1, -1));
+
+        txtInterestRate.setBackground(new java.awt.Color(250, 250, 250));
+        txtInterestRate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtInterestRate.setForeground(new java.awt.Color(30, 30, 30));
+        txtInterestRate.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtInterestRate.setBorder(null);
+        txtInterestRate.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtInterestRate.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtInterestRate.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtInterestRate.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtInterestRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 370, 220, 30));
+
+        lblInterestRate.setBackground(new java.awt.Color(255, 255, 255));
+        lblInterestRate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblInterestRate.setForeground(new java.awt.Color(30, 30, 30));
+        lblInterestRate.setText("Interest Rate:");
+        getContentPane().add(lblInterestRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 340, -1, -1));
+
+        txtLoanAmount.setBackground(new java.awt.Color(250, 250, 250));
+        txtLoanAmount.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtLoanAmount.setForeground(new java.awt.Color(30, 30, 30));
+        txtLoanAmount.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtLoanAmount.setBorder(null);
+        txtLoanAmount.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtLoanAmount.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtLoanAmount.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtLoanAmount.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtLoanAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, 220, 30));
+
+        lblLoanAmount.setBackground(new java.awt.Color(255, 255, 255));
+        lblLoanAmount.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblLoanAmount.setForeground(new java.awt.Color(30, 30, 30));
+        lblLoanAmount.setText("Loan Amount:");
+        getContentPane().add(lblLoanAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 340, -1, -1));
+
+        cbType.setBackground(new java.awt.Color(255, 255, 255));
+        cbType.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        cbType.setForeground(new java.awt.Color(30, 30, 30));
+        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Motor", "Car", "Mobile", "Laptop", "Gold" }));
+        cbType.setBorder(null);
+        cbType.setMaximumSize(new java.awt.Dimension(106, 26));
+        cbType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTypeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cbType, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 220, 30));
+
+        lblType.setBackground(new java.awt.Color(255, 255, 255));
+        lblType.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblType.setForeground(new java.awt.Color(30, 30, 30));
+        lblType.setText("Type:");
+        getContentPane().add(lblType, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, -1, -1));
+
+        txtRegisteredPlace.setBackground(new java.awt.Color(250, 250, 250));
+        txtRegisteredPlace.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtRegisteredPlace.setForeground(new java.awt.Color(30, 30, 30));
+        txtRegisteredPlace.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtRegisteredPlace.setBorder(null);
+        txtRegisteredPlace.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtRegisteredPlace.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtRegisteredPlace.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtRegisteredPlace.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtRegisteredPlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 250, 220, 30));
+
+        lblRegisteredPlace.setBackground(new java.awt.Color(255, 255, 255));
+        lblRegisteredPlace.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblRegisteredPlace.setForeground(new java.awt.Color(30, 30, 30));
+        lblRegisteredPlace.setText("Registered Place:");
+        getContentPane().add(lblRegisteredPlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 220, -1, -1));
+
         chsDateRange.setBackground(new java.awt.Color(255, 255, 255));
         chsDateRange.setForeground(new java.awt.Color(30, 30, 30));
         chsDateRange.setDateFormatString("yyyy-MM-dd");
@@ -155,518 +352,256 @@ public class NewContract extends javax.swing.JFrame {
         chsDateRange.setPreferredSize(new java.awt.Dimension(220, 30));
         getContentPane().add(chsDateRange, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, 220, 30));
 
-        lblEndDate.setBackground(new java.awt.Color(255, 255, 255));
-        lblEndDate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-        lblEndDate.setForeground(new java.awt.Color(30, 30, 30));
-        lblEndDate.setText("End date:");
-        getContentPane().add(lblEndDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 410, -1, -1));
+        lblDateRange.setBackground(new java.awt.Color(255, 255, 255));
+        lblDateRange.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblDateRange.setForeground(new java.awt.Color(30, 30, 30));
+        lblDateRange.setText("Date Range:");
+        getContentPane().add(lblDateRange, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, -1, -1));
 
-        dateEndDate.setCurrentView(new datechooser.view.appearance.AppearancesList("Swing",
-            new datechooser.view.appearance.ViewAppearance("custom",
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                    new java.awt.Color(187, 187, 187),
-                    new java.awt.Color(0, 0, 255),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                    new java.awt.Color(187, 187, 187),
-                    new java.awt.Color(0, 0, 255),
-                    true,
-                    true,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                    new java.awt.Color(0, 0, 255),
-                    new java.awt.Color(0, 0, 255),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                    new java.awt.Color(128, 128, 128),
-                    new java.awt.Color(0, 0, 255),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.LabelPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                    new java.awt.Color(187, 187, 187),
-                    new java.awt.Color(0, 0, 255),
-                    false,
-                    true,
-                    new datechooser.view.appearance.swing.LabelPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                    new java.awt.Color(187, 187, 187),
-                    new java.awt.Color(255, 0, 0),
-                    false,
-                    false,
-                    new datechooser.view.appearance.swing.ButtonPainter()),
-                (datechooser.view.BackRenderer)null,
-                false,
-                true)));
-    dateEndDate.setCalendarBackground(new java.awt.Color(255, 255, 255));
-    dateEndDate.setCalendarPreferredSize(new java.awt.Dimension(300, 200));
-    dateEndDate.setWeekStyle(datechooser.view.WeekDaysStyle.FULL);
-    dateEndDate.setFieldFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-    dateEndDate.setNavigateFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-    getContentPane().add(dateEndDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 440, 220, 30));
+        txtSocialId.setBackground(new java.awt.Color(250, 250, 250));
+        txtSocialId.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtSocialId.setForeground(new java.awt.Color(30, 30, 30));
+        txtSocialId.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtSocialId.setBorder(null);
+        txtSocialId.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtSocialId.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtSocialId.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtSocialId.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtSocialId, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 220, 30));
 
-    lblLicensePlate.setBackground(new java.awt.Color(255, 255, 255));
-    lblLicensePlate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblLicensePlate.setForeground(new java.awt.Color(30, 30, 30));
-    lblLicensePlate.setText("License Plate:");
-    getContentPane().add(lblLicensePlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 530, -1, -1));
+        lblSocialId.setBackground(new java.awt.Color(255, 255, 255));
+        lblSocialId.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblSocialId.setForeground(new java.awt.Color(30, 30, 30));
+        lblSocialId.setText("Social ID:");
+        getContentPane().add(lblSocialId, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 220, -1, -1));
 
-    txtLicensePlate.setBackground(new java.awt.Color(250, 250, 250));
-    txtLicensePlate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtLicensePlate.setForeground(new java.awt.Color(30, 30, 30));
-    txtLicensePlate.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtLicensePlate.setBorder(null);
-    txtLicensePlate.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtLicensePlate.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtLicensePlate.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtLicensePlate.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtLicensePlate.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtLicensePlateActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtLicensePlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 560, 220, 30));
+        txtAddress.setBackground(new java.awt.Color(250, 250, 250));
+        txtAddress.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtAddress.setForeground(new java.awt.Color(30, 30, 30));
+        txtAddress.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtAddress.setBorder(null);
+        txtAddress.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtAddress.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtAddress.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtAddress.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 180, 220, 30));
 
-    txtChassisId.setBackground(new java.awt.Color(250, 250, 250));
-    txtChassisId.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtChassisId.setForeground(new java.awt.Color(30, 30, 30));
-    txtChassisId.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtChassisId.setBorder(null);
-    txtChassisId.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtChassisId.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtChassisId.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtChassisId.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtChassisId.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtChassisIdActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtChassisId, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 560, 220, 30));
+        lblAddress.setBackground(new java.awt.Color(255, 255, 255));
+        lblAddress.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblAddress.setForeground(new java.awt.Color(30, 30, 30));
+        lblAddress.setText("Address:");
+        getContentPane().add(lblAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 150, -1, -1));
 
-    lblChassisId.setBackground(new java.awt.Color(255, 255, 255));
-    lblChassisId.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblChassisId.setForeground(new java.awt.Color(30, 30, 30));
-    lblChassisId.setText("Chassis ID:");
-    getContentPane().add(lblChassisId, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 530, -1, -1));
+        txtPhoneNumber.setBackground(new java.awt.Color(250, 250, 250));
+        txtPhoneNumber.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtPhoneNumber.setForeground(new java.awt.Color(30, 30, 30));
+        txtPhoneNumber.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPhoneNumber.setBorder(null);
+        txtPhoneNumber.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtPhoneNumber.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtPhoneNumber.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtPhoneNumber.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 220, 30));
 
-    lblEnginesId.setBackground(new java.awt.Color(255, 255, 255));
-    lblEnginesId.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblEnginesId.setForeground(new java.awt.Color(30, 30, 30));
-    lblEnginesId.setText("Engines ID:");
-    getContentPane().add(lblEnginesId, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 530, -1, -1));
+        lblPhoneNumber.setBackground(new java.awt.Color(255, 255, 255));
+        lblPhoneNumber.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblPhoneNumber.setForeground(new java.awt.Color(30, 30, 30));
+        lblPhoneNumber.setText("Phone number:");
+        getContentPane().add(lblPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 150, -1, -1));
 
-    txtEnginesId.setBackground(new java.awt.Color(250, 250, 250));
-    txtEnginesId.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtEnginesId.setForeground(new java.awt.Color(30, 30, 30));
-    txtEnginesId.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtEnginesId.setBorder(null);
-    txtEnginesId.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtEnginesId.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtEnginesId.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtEnginesId.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtEnginesId.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtEnginesIdActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtEnginesId, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 560, 220, 30));
+        txtCustomerName.setBackground(new java.awt.Color(250, 250, 250));
+        txtCustomerName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtCustomerName.setForeground(new java.awt.Color(30, 30, 30));
+        txtCustomerName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtCustomerName.setBorder(null);
+        txtCustomerName.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtCustomerName.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtCustomerName.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtCustomerName.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtCustomerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 220, 30));
 
-    txtLoanAmount.setBackground(new java.awt.Color(250, 250, 250));
-    txtLoanAmount.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtLoanAmount.setForeground(new java.awt.Color(30, 30, 30));
-    txtLoanAmount.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtLoanAmount.setBorder(null);
-    txtLoanAmount.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtLoanAmount.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtLoanAmount.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtLoanAmount.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtLoanAmount.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtLoanAmountActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtLoanAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 220, 30));
+        lblCustomerName.setBackground(new java.awt.Color(255, 255, 255));
+        lblCustomerName.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblCustomerName.setForeground(new java.awt.Color(30, 30, 30));
+        lblCustomerName.setText("Customer name:");
+        getContentPane().add(lblCustomerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, -1, -1));
 
-    lblLoanAmount.setBackground(new java.awt.Color(255, 255, 255));
-    lblLoanAmount.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblLoanAmount.setForeground(new java.awt.Color(30, 30, 30));
-    lblLoanAmount.setText("Loan Amount:");
-    getContentPane().add(lblLoanAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, -1, -1));
+        imgContractImage.setMaximumSize(new java.awt.Dimension(100, 100));
+        imgContractImage.setMinimumSize(new java.awt.Dimension(100, 100));
+        imgContractImage.setPreferredSize(new java.awt.Dimension(100, 100));
+        getContentPane().add(imgContractImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
 
-    txtInterestRate.setBackground(new java.awt.Color(250, 250, 250));
-    txtInterestRate.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtInterestRate.setForeground(new java.awt.Color(30, 30, 30));
-    txtInterestRate.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtInterestRate.setBorder(null);
-    txtInterestRate.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtInterestRate.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtInterestRate.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtInterestRate.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtInterestRate.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtInterestRateActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtInterestRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, 220, 30));
+        btnNewContract.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconNewContact.png"))); // NOI18N
+        btnNewContract.setMnemonic('S');
+        btnNewContract.setBorder(null);
+        btnNewContract.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNewContract.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNewContractMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNewContractMouseExited(evt);
+            }
+        });
+        btnNewContract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewContractActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 620, -1, -1));
 
-    lblInterestRate.setBackground(new java.awt.Color(255, 255, 255));
-    lblInterestRate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblInterestRate.setForeground(new java.awt.Color(30, 30, 30));
-    lblInterestRate.setText("Interest Rate:");
-    getContentPane().add(lblInterestRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 340, -1, -1));
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconCancel.png"))); // NOI18N
+        btnCancel.setMnemonic('X');
+        btnCancel.setBorder(null);
+        btnCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCancelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCancelMouseExited(evt);
+            }
+        });
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 620, -1, -1));
 
-    lblNote.setBackground(new java.awt.Color(255, 255, 255));
-    lblNote.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblNote.setForeground(new java.awt.Color(30, 30, 30));
-    lblNote.setText("Note:");
-    getContentPane().add(lblNote, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 340, -1, -1));
+        bgContract.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pnlNewContract.png"))); // NOI18N
+        getContentPane().add(bgContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
-    lblAddress.setBackground(new java.awt.Color(255, 255, 255));
-    lblAddress.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblAddress.setForeground(new java.awt.Color(30, 30, 30));
-    lblAddress.setText("Address:");
-    getContentPane().add(lblAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 150, -1, -1));
-
-    txtAddress.setBackground(new java.awt.Color(250, 250, 250));
-    txtAddress.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtAddress.setForeground(new java.awt.Color(30, 30, 30));
-    txtAddress.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtAddress.setBorder(null);
-    txtAddress.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtAddress.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtAddress.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtAddress.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtAddress.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtAddressActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 180, 220, 30));
-
-    lblStartDate.setBackground(new java.awt.Color(255, 255, 255));
-    lblStartDate.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblStartDate.setForeground(new java.awt.Color(30, 30, 30));
-    lblStartDate.setText("Start date:");
-    getContentPane().add(lblStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 410, -1, -1));
-
-    lblType.setBackground(new java.awt.Color(255, 255, 255));
-    lblType.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblType.setForeground(new java.awt.Color(30, 30, 30));
-    lblType.setText("Type:");
-    getContentPane().add(lblType, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 530, -1, -1));
-
-    lblCustomerName.setBackground(new java.awt.Color(255, 255, 255));
-    lblCustomerName.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblCustomerName.setForeground(new java.awt.Color(30, 30, 30));
-    lblCustomerName.setText("Customer name:");
-    getContentPane().add(lblCustomerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, -1, -1));
-
-    cbType.setBackground(new java.awt.Color(255, 255, 255));
-    cbType.setForeground(new java.awt.Color(30, 30, 30));
-    cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Motor", "Car", "Mobile Phone", "Laptop", "Gold" }));
-    cbType.setBorder(null);
-    cbType.setMaximumSize(new java.awt.Dimension(106, 26));
-    cbType.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            cbTypeActionPerformed(evt);
-        }
-    });
-    getContentPane().add(cbType, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 560, 100, 30));
-
-    lblRegisteredPlace.setBackground(new java.awt.Color(255, 255, 255));
-    lblRegisteredPlace.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblRegisteredPlace.setForeground(new java.awt.Color(30, 30, 30));
-    lblRegisteredPlace.setText("Registered Place:");
-    getContentPane().add(lblRegisteredPlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 220, -1, -1));
-
-    txtRegisteredPlace.setBackground(new java.awt.Color(250, 250, 250));
-    txtRegisteredPlace.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtRegisteredPlace.setForeground(new java.awt.Color(30, 30, 30));
-    txtRegisteredPlace.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtRegisteredPlace.setBorder(null);
-    txtRegisteredPlace.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtRegisteredPlace.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtRegisteredPlace.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtRegisteredPlace.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtRegisteredPlace.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtRegisteredPlaceActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtRegisteredPlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 250, 220, 30));
-
-    lblDateRange.setBackground(new java.awt.Color(255, 255, 255));
-    lblDateRange.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblDateRange.setForeground(new java.awt.Color(30, 30, 30));
-    lblDateRange.setText("Date Range:");
-    getContentPane().add(lblDateRange, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, -1, -1));
-
-    dateStartDate.setCurrentView(new datechooser.view.appearance.AppearancesList("Swing",
-        new datechooser.view.appearance.ViewAppearance("custom",
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                new java.awt.Color(187, 187, 187),
-                new java.awt.Color(0, 0, 255),
-                false,
-                true,
-                new datechooser.view.appearance.swing.ButtonPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                new java.awt.Color(187, 187, 187),
-                new java.awt.Color(0, 0, 255),
-                true,
-                true,
-                new datechooser.view.appearance.swing.ButtonPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                new java.awt.Color(0, 0, 255),
-                new java.awt.Color(0, 0, 255),
-                false,
-                true,
-                new datechooser.view.appearance.swing.ButtonPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                new java.awt.Color(128, 128, 128),
-                new java.awt.Color(0, 0, 255),
-                false,
-                true,
-                new datechooser.view.appearance.swing.LabelPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                new java.awt.Color(187, 187, 187),
-                new java.awt.Color(0, 0, 255),
-                false,
-                true,
-                new datechooser.view.appearance.swing.LabelPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12),
-                new java.awt.Color(187, 187, 187),
-                new java.awt.Color(255, 0, 0),
-                false,
-                false,
-                new datechooser.view.appearance.swing.ButtonPainter()),
-            (datechooser.view.BackRenderer)null,
-            false,
-            true)));
-dateStartDate.setCalendarBackground(new java.awt.Color(255, 255, 255));
-dateStartDate.setCalendarPreferredSize(new java.awt.Dimension(300, 200));
-dateStartDate.setWeekStyle(datechooser.view.WeekDaysStyle.FULL);
-dateStartDate.setFieldFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-dateStartDate.setLocale(new java.util.Locale("vi", "VN", ""));
-dateStartDate.setNavigateFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-getContentPane().add(dateStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 440, 220, 30));
-
-lblSocialId.setBackground(new java.awt.Color(255, 255, 255));
-lblSocialId.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-lblSocialId.setForeground(new java.awt.Color(30, 30, 30));
-lblSocialId.setText("Social ID:");
-getContentPane().add(lblSocialId, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 220, -1, -1));
-
-txtSocialId.setBackground(new java.awt.Color(250, 250, 250));
-txtSocialId.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-txtSocialId.setForeground(new java.awt.Color(30, 30, 30));
-txtSocialId.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-txtSocialId.setBorder(null);
-txtSocialId.setMaximumSize(new java.awt.Dimension(220, 30));
-txtSocialId.setMinimumSize(new java.awt.Dimension(220, 30));
-txtSocialId.setPreferredSize(new java.awt.Dimension(220, 30));
-txtSocialId.setSelectionColor(new java.awt.Color(119, 91, 200));
-txtSocialId.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        txtSocialIdActionPerformed(evt);
-    }
-    });
-    getContentPane().add(txtSocialId, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 220, 30));
-
-    lblPhoneNumber.setBackground(new java.awt.Color(255, 255, 255));
-    lblPhoneNumber.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-    lblPhoneNumber.setForeground(new java.awt.Color(30, 30, 30));
-    lblPhoneNumber.setText("Phone number:");
-    getContentPane().add(lblPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 150, -1, -1));
-
-    txtPhoneNumber.setBackground(new java.awt.Color(250, 250, 250));
-    txtPhoneNumber.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtPhoneNumber.setForeground(new java.awt.Color(30, 30, 30));
-    txtPhoneNumber.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtPhoneNumber.setBorder(null);
-    txtPhoneNumber.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtPhoneNumber.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtPhoneNumber.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtPhoneNumber.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtPhoneNumberActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 220, 30));
-
-    jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-    jScrollPane1.setBorder(null);
-    jScrollPane1.setForeground(new java.awt.Color(30, 30, 30));
-    jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-    jScrollPane1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    jScrollPane1.setMaximumSize(new java.awt.Dimension(220, 80));
-    jScrollPane1.setMinimumSize(new java.awt.Dimension(220, 80));
-    jScrollPane1.setPreferredSize(new java.awt.Dimension(220, 80));
-
-    txtNote.setBackground(new java.awt.Color(250, 250, 250));
-    txtNote.setColumns(20);
-    txtNote.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtNote.setForeground(new java.awt.Color(30, 30, 30));
-    txtNote.setRows(5);
-    txtNote.setBorder(null);
-    txtNote.setSelectionColor(new java.awt.Color(119, 91, 200));
-    jScrollPane1.setViewportView(txtNote);
-
-    getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 370, 220, 100));
-
-    txtCustomerName.setBackground(new java.awt.Color(250, 250, 250));
-    txtCustomerName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-    txtCustomerName.setForeground(new java.awt.Color(30, 30, 30));
-    txtCustomerName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-    txtCustomerName.setBorder(null);
-    txtCustomerName.setMaximumSize(new java.awt.Dimension(220, 30));
-    txtCustomerName.setMinimumSize(new java.awt.Dimension(220, 30));
-    txtCustomerName.setPreferredSize(new java.awt.Dimension(220, 30));
-    txtCustomerName.setSelectionColor(new java.awt.Color(119, 91, 200));
-    txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtCustomerNameActionPerformed(evt);
-        }
-    });
-    getContentPane().add(txtCustomerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 220, 30));
-
-    imgContractImage.setMaximumSize(new java.awt.Dimension(100, 100));
-    imgContractImage.setMinimumSize(new java.awt.Dimension(100, 100));
-    imgContractImage.setPreferredSize(new java.awt.Dimension(100, 100));
-    getContentPane().add(imgContractImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
-
-    btnNewContract.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconNewContact.png"))); // NOI18N
-    btnNewContract.setMnemonic('S');
-    btnNewContract.setBorder(null);
-    btnNewContract.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    btnNewContract.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseEntered(java.awt.event.MouseEvent evt) {
-            btnNewContractMouseEntered(evt);
-        }
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            btnNewContractMouseExited(evt);
-        }
-    });
-    btnNewContract.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnNewContractActionPerformed(evt);
-        }
-    });
-    getContentPane().add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 620, -1, -1));
-
-    btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconCancel.png"))); // NOI18N
-    btnCancel.setMnemonic('X');
-    btnCancel.setBorder(null);
-    btnCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseEntered(java.awt.event.MouseEvent evt) {
-            btnCancelMouseEntered(evt);
-        }
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            btnCancelMouseExited(evt);
-        }
-    });
-    btnCancel.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnCancelActionPerformed(evt);
-        }
-    });
-    getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 620, -1, -1));
-
-    bgContract.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pnlNewContract.png"))); // NOI18N
-    getContentPane().add(bgContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
-
-    pack();
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTypeActionPerformed
-        // TODO add your handling code here:
+        propertyType = (String) cbType.getSelectedItem();
+        if (propertyType.equals("Motor") || propertyType.equals("Car")) {
+            lblLicensePlate.setText("License Plate:");
+            lblChassisId.setText("Chassis ID:");
+            lblLicensePlate.setEnabled(true);
+            lblChassisId.setEnabled(true);
+            lblEnginesId.setEnabled(true);
+            txtLicensePlate.setEnabled(true);
+            txtChassisId.setEnabled(true);
+            txtEnginesId.setEnabled(true);
+        } else if (propertyType.equals("Mobile") || propertyType.equals("Laptop")) {
+            lblLicensePlate.setText("Imei:");
+            lblChassisId.setText("Passcode:");
+            lblLicensePlate.setEnabled(true);
+            lblChassisId.setEnabled(true);
+            lblEnginesId.setEnabled(false);
+            txtLicensePlate.setEnabled(true);
+            txtChassisId.setEnabled(true);
+            txtEnginesId.setEnabled(false);
+        } else {
+            lblLicensePlate.setEnabled(false);
+            lblChassisId.setEnabled(false);
+            lblEnginesId.setEnabled(false);
+            txtLicensePlate.setEnabled(false);
+            txtChassisId.setEnabled(false);
+            txtEnginesId.setEnabled(false);
+        }
     }//GEN-LAST:event_cbTypeActionPerformed
 
-    private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCustomerNameActionPerformed
-
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        Home home = new Home();
-        home.setVisible(true);
-        this.dispose();
+        callHome();
     }//GEN-LAST:event_btnCancelActionPerformed
-
-    private void txtSocialIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSocialIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSocialIdActionPerformed
-
-    private void txtRegisteredPlaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegisteredPlaceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRegisteredPlaceActionPerformed
-
-    private void txtPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPhoneNumberActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPhoneNumberActionPerformed
-
-    private void txtAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddressActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAddressActionPerformed
-
-    private void txtLoanAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoanAmountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoanAmountActionPerformed
-
-    private void txtInterestRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInterestRateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtInterestRateActionPerformed
-
-    private void txtLicensePlateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLicensePlateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLicensePlateActionPerformed
-
-    private void txtChassisIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChassisIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChassisIdActionPerformed
-
-    private void txtEnginesIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnginesIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEnginesIdActionPerformed
 
     private void btnNewContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContractActionPerformed
         boolean isOk = true;
-        String message = "Error list:\n";
+        String message = "";
         if (txtCustomerName.getText().isEmpty()) {
-            message = message + "- Customer Name can't be empty.\n";
             isOk = false;
+            message = message + "- Customer Name can't be empty.\n";
         }
         if (!Validation.phoneNumber(txtPhoneNumber.getText())) {
             isOk = false;
             message = message + "- Phone number must be 10 digits.\n";
         }
-        if (!Validation.dateFormat(dateRange)) {
+        dateRange = dateFormat.format(chsDateRange.getDate());
+        if (txtSocialId.getText().isEmpty()) {
             isOk = false;
-            message = message + "- Valid date format must be yyyy-MM-dd";
+            message = message + "- Social ID can't be empty.\n";
         }
+        if (txtRegisteredPlace.getText().isEmpty()) {
+            isOk = false;
+            message = message + "- Registered Place can't be empty.\n";
+        }
+
+        if (!Validation.longFormat(txtLoanAmount.getText())) {
+            isOk = false;
+            message = message + "- Loan Amount must be a long number.\n";
+        } else {
+            totalLoanAmount = Long.parseLong(txtLoanAmount.getText());
+        }
+        if (!Validation.longFormat(txtInterestRate.getText())) {
+            isOk = false;
+            message = message + "- Interest Rate must be a long number.\n";
+        } else {
+            interestRate = Long.parseLong(txtInterestRate.getText());
+        }
+        startDate = dateFormat.format(chsStartDate.getDate());
+        endDate = dateFormat.format(chsEndDate.getDate());
+        setCreditPeriod();
+
+        if (txtAssetName.getText().isEmpty()) {
+            isOk = false;
+            message = message + "- Asset name can't be empty.\n";
+        }
+
+        if (propertyType.equals("Motor") || propertyType.equals("Car")) {
+            if (lblLicensePlate.getText().isEmpty()) {
+                isOk = false;
+                message = message + "- License Plate can't be empty.\n";
+            }
+        } else if (propertyType.equals("Mobile") || propertyType.equals("Laptop")) {
+            if (lblLicensePlate.getText().isEmpty()) {
+                isOk = false;
+                message = message + "- Imei can't be empty.\n";
+            }
+        }
+
         if (isOk == false) {
-            JOptionPane.showMessageDialog(null, message, "There was an error in the input process", 0);
+            JOptionPane.showMessageDialog(null, message, "Error list:", 0);
         } else {
             try {
-                saveCustomer();
-                System.out.println("Save OK");
+                saveAllContract();
+                JOptionPane.showMessageDialog(null, "Saving contract successfully.", "Notification", 1);
+                callHome();
             } catch (SQLException ex) {
                 Logger.getLogger(NewContract.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnNewContractActionPerformed
 
-    private void saveCustomer() throws SQLException {
+    private void callHome() {
+        Home home = new Home();
+        home.cardLayout.show(home.pnlRight, "pnlCardPawnedOff");
+        home.setVisible(true);
+        this.dispose();
+    }
+
+    private void saveAllContract() throws SQLException {
+        Home home = null;
+        int contractId = contractModel.getFreeContractId();
         if (customerId > 0) {
             customerModel.updateCustomerInfo(customerId, txtPhoneNumber.getText(), txtSocialId.getText(), dateRange, txtRegisteredPlace.getText(), txtAddress.getText());
+            contractModel.addContract(contractId, customerId, propertyType, txtAssetName.getText(), totalLoanAmount, interestRate, startDate, endDate, creditPeriod, txtNote.getText(), "lekhoi456", 1, "0", totalLoanAmount + interestRate, "0", 1);
         } else {
-            customerModel.addCustomer(customerModel.getFreeId(), txtCustomerName.getText(), txtPhoneNumber.getText(), txtSocialId.getText(), dateRange, txtRegisteredPlace.getText(), txtAddress.getText(), 1, "0");
+            customerId = customerModel.getFreeId();
+            customerModel.addCustomer(customerId, txtCustomerName.getText(), txtPhoneNumber.getText(), txtSocialId.getText(), dateRange, txtRegisteredPlace.getText(), txtAddress.getText(), 1, "0");
+            contractModel.addContract(contractId, customerId, propertyType, txtAssetName.getText(), totalLoanAmount, interestRate, startDate, endDate, creditPeriod, txtNote.getText(), "lekhoi456", 1, "0", totalLoanAmount + interestRate, "0", 1);
         }
+        if (propertyType.equals("Motor") || propertyType.equals("Car")) {
+            assetModel.addAsset(assetModel.getFreeAssetId(), contractId, propertyType, txtAssetName.getText(), startDate, endDate, txtLicensePlate.getText(), txtChassisId.getText(), txtEnginesId.getText(), null, null);
+        } else if (propertyType.equals("Mobile") || propertyType.equals("Laptop")) {
+            assetModel.addAsset(assetModel.getFreeAssetId(), contractId, propertyType, txtAssetName.getText(), startDate, endDate, null, null, null, txtLicensePlate.getText(), txtChassisId.getText());
+        } else {
+            assetModel.addAsset(assetModel.getFreeAssetId(), contractId, propertyType, txtAssetName.getText(), startDate, endDate, null, null, null, null, null);
+        }
+
     }
     private void chkNewCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNewCustomerActionPerformed
         setEmptyCustomer();
@@ -740,17 +675,33 @@ txtSocialId.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void run() {
                 try {
-                    new NewContract().setVisible(true);
+                    new Home().setVisible(true);
                 } catch (Exception ex) {
-                    Logger.getLogger(NewContract.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
 
+    private void setCreditPeriod() {
+        try {
+            this.creditPeriod = Validation.getDifferenceDays(dateFormat.parse(startDate), dateFormat.parse(endDate));
+        } catch (ParseException ex) {
+            Logger.getLogger(NewContract.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private final CustomerModel customerModel;
+    private final ContractModel contractModel;
+    private final AssetModel assetModel;
     private int customerId;
     private String dateRange = "";
+    private String startDate = "";
+    private String endDate = "";
+    private long creditPeriod;
+    private String propertyType = "Motor";
+    private long totalLoanAmount;
+    private long interestRate;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bgContract;
@@ -761,11 +712,11 @@ txtSocialId.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JRadioButton chkNewCustomer;
     private javax.swing.JRadioButton chkOldCustomer;
     private com.toedter.calendar.JDateChooser chsDateRange;
-    private datechooser.beans.DateChooserCombo dateEndDate;
-    private datechooser.beans.DateChooserCombo dateStartDate;
+    private com.toedter.calendar.JDateChooser chsEndDate;
+    private com.toedter.calendar.JDateChooser chsStartDate;
     private javax.swing.JLabel imgContractImage;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblAssetName;
     private javax.swing.JLabel lblChassisId;
     private javax.swing.JLabel lblCustomerName;
     private javax.swing.JLabel lblDateRange;
@@ -781,13 +732,14 @@ txtSocialId.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JLabel lblStartDate;
     private javax.swing.JLabel lblType;
     private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtAssetName;
     private javax.swing.JTextField txtChassisId;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtEnginesId;
     private javax.swing.JTextField txtInterestRate;
     private javax.swing.JTextField txtLicensePlate;
     private javax.swing.JTextField txtLoanAmount;
-    private javax.swing.JTextArea txtNote;
+    private javax.swing.JTextField txtNote;
     private javax.swing.JTextField txtPhoneNumber;
     private javax.swing.JTextField txtRegisteredPlace;
     private javax.swing.JTextField txtSocialId;

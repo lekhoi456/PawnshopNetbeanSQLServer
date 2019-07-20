@@ -2,7 +2,6 @@ package Model;
 
 import Controller.ConnectMSSQL;
 import Entity.Customer;
-import Entity.Employee;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -51,7 +50,6 @@ public class CustomerModel {
     }
 
     public int getFreeId() {
-        int freeId;
         for (int i = 0; i < customerArrayList.size(); i++) {
             if (i > customerArrayList.get(i).getCustomerId()) {
                 return i;

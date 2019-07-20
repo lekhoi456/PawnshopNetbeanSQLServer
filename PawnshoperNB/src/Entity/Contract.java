@@ -10,6 +10,7 @@ public class Contract {
     private long interestRate;
     private String startDate;
     private String endDate;
+    private long creditPeriod;
     private String note;
     private String cashier;
     private int status;
@@ -18,7 +19,7 @@ public class Contract {
     private String redeemAtDay;
     private int storeId;
 
-    public Contract(int contractId, int customerId, String propertyType, String assetName, long totalLoanAmount, long interestRate, String startDate, String endDate, String note, String cashier, int status, String contractImage, long totalMoney, String redeemAtDay, int storeId) {
+    public Contract(int contractId, int customerId, String propertyType, String assetName, long totalLoanAmount, long interestRate, String startDate, String endDate, long creditPeriod, String note, String cashier, int status, String contractImage, long totalMoney, String redeemAtDay, int storeId) {
         this.contractId = contractId;
         this.customerId = customerId;
         this.propertyType = propertyType;
@@ -27,6 +28,7 @@ public class Contract {
         this.interestRate = interestRate;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.creditPeriod = creditPeriod;
         this.note = note;
         this.cashier = cashier;
         this.status = status;
@@ -98,6 +100,14 @@ public class Contract {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public long getCreditPeriod() {
+        return creditPeriod;
+    }
+
+    public void setCreditPeriod(long creditPeriod) {
+        this.creditPeriod = creditPeriod;
     }
 
     public String getNote() {

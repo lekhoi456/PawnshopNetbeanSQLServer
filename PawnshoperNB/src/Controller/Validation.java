@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,6 +95,11 @@ public class Validation {
         }
     }
 
+    public static long getDifferenceDays(Date d1, Date d2) {
+        long diff = d2.getTime() - d1.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
+
     public static java.util.Date currentDate() {
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -120,5 +127,14 @@ public class Validation {
             return false;
         }
         return true;
+    }
+
+    public static boolean longFormat(String longStr) {
+        try {
+            Long.parseLong(longStr.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

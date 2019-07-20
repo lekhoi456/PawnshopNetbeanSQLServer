@@ -51,9 +51,9 @@ public class AssetModel {
         }
     }
 
-    private int getFreeIndex() {
-        for (int i = 1; i < assetArrayList.size(); i++) {
-            if (i != assetArrayList.get(i - 1).getAssetId()) {
+    public int getFreeAssetId() {
+        for (int i = 0; i < assetArrayList.size(); i++) {
+            if (i > assetArrayList.get(i).getAssetId()) {
                 return i;
             }
         }

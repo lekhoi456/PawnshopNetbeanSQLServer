@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Home extends javax.swing.JFrame {
 
-    CardLayout cardLayout;
+    public static CardLayout cardLayout;
     DefaultTableModel tableContract;
 
     /**
@@ -40,6 +40,14 @@ public class Home extends javax.swing.JFrame {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public static void setCashier(String userName) {
+        Home.cashier = userName;
+    }
+
+    public String getCashier() {
+        return cashier;
     }
 
     public final void loadContract() throws Exception {
@@ -667,6 +675,7 @@ public class Home extends javax.swing.JFrame {
         });
     }
 
+    private static String cashier;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backgroundLeft;
     private javax.swing.JLabel bgDashboard;
@@ -693,7 +702,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel pnlCardReport;
     private javax.swing.JPanel pnlCardStore;
     private javax.swing.JPanel pnlLeft;
-    private javax.swing.JPanel pnlRight;
+    public static javax.swing.JPanel pnlRight;
     private javax.swing.JScrollPane pnlScrollTable;
     private javax.swing.JSplitPane pnlSplitPane;
     private javax.swing.JTable tblContract;
