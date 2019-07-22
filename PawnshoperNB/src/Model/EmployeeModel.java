@@ -50,9 +50,9 @@ public class EmployeeModel {
         }
     }
 
-    private int getFreeIndex() {
-        for (int i = 1; i < employeeArrayList.size(); i++) {
-            if (i != employeeArrayList.get(i - 1).getEmpId()) {
+    public int getFreeId() {
+        for (int i = 0; i < employeeArrayList.size(); i++) {
+            if (i > employeeArrayList.get(i).getEmpId()) {
                 return i;
             }
         }
@@ -70,9 +70,9 @@ public class EmployeeModel {
         }
     }
 
-    public void updateEmployeeInfo(String username, String fullName, String phoneNumber, String email, String address) throws SQLException {
+    public void updateEmployeeInfo(int empId, String phoneNumber, String email, String address, String role, int isActive) throws SQLException {
         try {
-            sqlST = "UPDATE Employee SET FullName= N'" + fullName + "', PhoneNumber= '" + phoneNumber + "', Email= '" + email + "', EAddress= N'" + address + "' WHERE Username='" + username + "'";
+            sqlST = "UPDATE Employee SET PhoneNumber= '" + phoneNumber + "', Email= '" + email + "', EAddress= N'" + address + "', ERole = '" + role + "', IsActive = " + isActive + " WHERE EmpId=" + empId;
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadEmployee();

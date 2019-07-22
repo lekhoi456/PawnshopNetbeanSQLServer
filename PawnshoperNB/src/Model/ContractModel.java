@@ -1,10 +1,15 @@
 package Model;
 
 import Controller.ConnectMSSQL;
+import Controller.Validation;
 import Entity.Contract;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ContractModel {
 
@@ -14,6 +19,7 @@ public class ContractModel {
     private static PreparedStatement pst;
     private static ResultSet rs;
     private static String sqlST;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public ContractModel() throws Exception {
         try {
@@ -24,6 +30,11 @@ public class ContractModel {
             rs = null;
             sqlST = "";
             loadContractFromDB();
+            try {
+                setTrueTotalMoney();
+            } catch (ParseException ex) {
+                Logger.getLogger(ContractModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (Exception e) {
             throw new Exception("Cannot load initialize Contract Model");
         }
@@ -54,14 +65,10 @@ public class ContractModel {
                                 rs.getInt("StoreId")));
             }
         }
+
     }
 
     public int getFreeContractId() {
-        for (int i = 0; i < contractArrayList.size(); i++) {
-            if (i > contractArrayList.get(i).getCustomerId()) {
-                return i;
-            }
-        }
         return contractArrayList.size() + 1;
     }
 
@@ -86,6 +93,28 @@ public class ContractModel {
         } catch (SQLException e) {
             throw e;
         }
+    }
+
+    public void setTrueTotalMoney() throws SQLException, ParseException {
+        java.util.Date now = Validation.currentDate();
+        for (int i = 0; i < contractArrayList.size(); i++) {
+            if (contractArrayList.get(i).getStatus() != 1) {
+                java.util.Date stDate = dateFormat.parse(contractArrayList.get(i).getStartDate());
+                long datePawnToNow = Validation.getDifferenceDays(stDate, now);
+                long interestToNow = datePawnToNow * contractArrayList.get(i).getInterestRate();
+                long totalMoney = interestToNow + contractArrayList.get(i).getTotalLoanAmount();
+                try {
+                    sqlST = "UPDATE Contract SET TotalMoney = " + totalMoney + " WHERE ContractId=" + contractArrayList.get(i).getContractId();
+                    pst = conn.prepareStatement(sqlST);
+                    pst.executeUpdate();
+                    contractArrayList.get(i).setTotalMoney(totalMoney);
+                } catch (SQLException e) {
+                    throw e;
+                }
+            }
+        }
+        loadContractFromDB();
+
     }
 
     public int searchContractId(int keyword) {

@@ -1,11 +1,13 @@
 package Controller;
 
 import View.NewContract;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -14,86 +16,10 @@ import java.util.logging.Logger;
 public class Validation {
 
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-    private final static Scanner scanner = new Scanner(System.in);
-
-    /**
-     * d{10} user must be input 10 number; d* user can input more number or not
-     */
-    private static final String PHONE_VALID
-            = "^\\d{10}\\d*$";
-
-    /**
-     * [A-Za-z0-9.-+%]+ user must be input from a-z ignore case,0-9 and .-+%
-     * least one times
-     *
-     * @ user must be input "@" [A-Za-z.-]+ user must be input from a-z ignore
-     * case, "." "-" least one times . user must be input "." [A-Za-z]{2,4} user
-     * must be input from a-z ignore 2 - 4 times
-     */
-    private static final String EMAIL_VALID
-            = "^[A-Za-z0-9.+-_%]+@[A-Za-z.-]+\\.[A-Za-z]{2,4}$";
-
-    // Check user input number limit
-    public static int checkInputIntLimit(int min, int max) {
-        // Loop until user input correct
-        while (true) {
-            try {
-                int result = Integer.parseInt(scanner.nextLine().trim());
-                if (result < min || result > max) {
-                    throw new NumberFormatException();
-                }
-                return result;
-            } catch (NumberFormatException e) {
-                System.out.println("Please input number in rage [" + min + ", " + max + "]");
-                System.out.print("Please try again: ");
-            }
-        }
-    }
-
-    // Check user input string
-    public static String checkInputString() {
-        // Loop until user input correct
-        while (true) {
-            String result = scanner.nextLine().trim();
-            if (result.isEmpty()) {
-                System.out.println("Can't empty!");
-                System.out.print("Please try again: ");
-            } else {
-                return result;
-            }
-        }
-    }
-
-    //Check user input int
-    public static int checkInputInt() {
-        //loop until user input correct
-        while (true) {
-            try {
-                int result = Integer.parseInt(scanner.nextLine().trim());
-                return result;
-            } catch (NumberFormatException e) {
-                System.out.println("Please input number integer");
-                System.out.print("Enter again: ");
-            }
-        }
-    }
-
-    // Check phone is number with minimum 10 characters
-    // Check email with format <account name>@<domain>. (eg: daql@fe.edu.vn)
-    public static String checkInputEmail() {
-        // Loop until user input correct
-        while (true) {
-            String result = checkInputString();
-            // Check user input email valid
-            if (result.matches(EMAIL_VALID)) {
-                return result;
-            } else {
-                System.out.println("Email with format <account name>@<domain>");
-                System.out.print("Please try again: ");
-            }
-        }
-    }
+    private static final Locale localeEN = new Locale("en", "EN");
+    private static final NumberFormat en = NumberFormat.getInstance(localeEN);
+    private static final String PHONE_VALID = "^\\d{10}\\d*$";
+    private static final String EMAIL_VALID = "^[A-Za-z0-9.+-_%]+@[A-Za-z.-]+\\.[A-Za-z]{2,4}$";
 
     public static long getDifferenceDays(Date d1, Date d2) {
         long diff = d2.getTime() - d1.getTime();
@@ -119,6 +45,13 @@ public class Validation {
         return false;
     }
 
+    public static boolean email(String email) {
+        if (email.matches(EMAIL_VALID)) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean dateFormat(String date) {
         dateFormat.setLenient(false);
         try {
@@ -136,5 +69,10 @@ public class Validation {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public static String convertLongFormat(long longNumber) {
+        String longStrFormatted = en.format(longNumber);
+        return longStrFormatted;
     }
 }

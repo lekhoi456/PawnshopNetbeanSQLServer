@@ -59,7 +59,7 @@ public class NewContract extends javax.swing.JFrame {
                     }
 
                     txtRegisteredPlace.setText(customerModel.getList().get(i).getRegisteredPlace());
-                    if (customerModel.getList().get(i).getCustomerImage().equalsIgnoreCase("1")) {
+                    if (customerModel.getList().get(i).getCustomerImage().equalsIgnoreCase("0")) {
                         imgContractImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/CustomerImages/" + customerId + ".png")));
                     } else {
                         imgContractImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/CustomerImages/0.png")));
@@ -518,7 +518,7 @@ public class NewContract extends javax.swing.JFrame {
         }
         if (!Validation.phoneNumber(txtPhoneNumber.getText())) {
             isOk = false;
-            message = message + "- Phone number must be 10 digits.\n";
+            message = message + "- Phone number must be 10+ digits.\n";
         }
         dateRange = dateFormat.format(chsDateRange.getDate());
         if (txtSocialId.getText().isEmpty()) {
@@ -545,6 +545,10 @@ public class NewContract extends javax.swing.JFrame {
         startDate = dateFormat.format(chsStartDate.getDate());
         endDate = dateFormat.format(chsEndDate.getDate());
         setCreditPeriod();
+        if (creditPeriod < 0) {
+            isOk = false;
+            message = message + "- End date must be greater or equal Start date.\n";
+        }
 
         if (txtAssetName.getText().isEmpty()) {
             isOk = false;
@@ -643,46 +647,45 @@ public class NewContract extends javax.swing.JFrame {
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconCancel.png")));
     }//GEN-LAST:event_btnCancelMouseExited
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new Home().setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
-
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Windows".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(NewContract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    new Home().setVisible(true);
+//                } catch (Exception ex) {
+//                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
+//    }
     private void setCreditPeriod() {
         try {
             this.creditPeriod = Validation.getDifferenceDays(dateFormat.parse(startDate), dateFormat.parse(endDate));

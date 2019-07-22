@@ -18,7 +18,9 @@ public class CheckAccount {
         EmployeeModel employeeModel = new EmployeeModel();
         boolean isCorrect = false;
         for (int i = 0; i < employeeModel.getList().size(); i++) {
-            if (employeeModel.getList().get(i).getUsername().equalsIgnoreCase(username) && (hashPW.decode(password, employeeModel.getList().get(i).getPassword()) == true)) {
+            if (employeeModel.getList().get(i).getUsername().equalsIgnoreCase(username)
+                    && (hashPW.decode(password, employeeModel.getList().get(i).getPassword()) == true)
+                    && (employeeModel.getList().get(i).getIsActive() == 0)) {
                 isCorrect = true;
             }
         }
