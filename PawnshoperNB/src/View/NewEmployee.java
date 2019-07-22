@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.HashPW;
 import Controller.Validation;
 import Model.EmployeeModel;
 import java.awt.Image;
@@ -18,43 +19,22 @@ import javax.swing.JOptionPane;
  *
  * @author KhoiLeQuoc
  */
-public class EditEmployee extends javax.swing.JFrame {
+public class NewEmployee extends javax.swing.JFrame {
 
     /**
      * Creates new form EditEmployee
      */
-    public EditEmployee() {
+    public NewEmployee() {
         initComponents();
-        empIdEdit = Home.empIdLoadToEditEmp;
-        setEmployeeInfo();
         this.setLocationRelativeTo(null);
         Image favicon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/favicon.png"));
         this.setIconImage(favicon);
-
-    }
-
-    public void setEmployeeInfo() {
         try {
             employeeModel = new EmployeeModel();
-            System.out.println("Emp ID la: " + empIdEdit);
-            for (int i = 0; i < employeeModel.getList().size(); i++) {
-                if (employeeModel.getList().get(i).getEmpId() == empIdEdit) {
-                    txtEmployeeName.setText(employeeModel.getList().get(i).getFullName());
-                    txtPhoneNumber.setText(employeeModel.getList().get(i).getPhoneNumber());
-                    txtEmail.setText(employeeModel.getList().get(i).getEmail());
-                    txtAddress.setText(employeeModel.getList().get(i).geteAddress());
-                    int isEmpActive = employeeModel.getList().get(i).getIsActive();
-                    if (isEmpActive != 0) {
-                        chkDeactive.setSelected(true);
-                    }
-                    if (employeeModel.getList().get(i).geteRole().equalsIgnoreCase("mod")) {
-                        chkSetMod.setSelected(true);
-                    }
-                }
-            }
         } catch (Exception ex) {
-            Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewEmployee.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
@@ -68,6 +48,11 @@ public class EditEmployee extends javax.swing.JFrame {
 
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
+        lblUsername = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
+        txtUsername = new javax.swing.JTextField();
+        txtEmployeeName = new javax.swing.JTextField();
         chkDeactive = new javax.swing.JCheckBox();
         chkSetMod = new javax.swing.JCheckBox();
         lblAddress = new javax.swing.JLabel();
@@ -75,16 +60,15 @@ public class EditEmployee extends javax.swing.JFrame {
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         txtPhoneNumber = new javax.swing.JTextField();
-        txtEmployeeName = new javax.swing.JLabel();
         lblEmployeeName = new javax.swing.JLabel();
         lblPhoneNumber = new javax.swing.JLabel();
         bgEditEmployee = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Edit Employee");
-        setMaximumSize(new java.awt.Dimension(500, 440));
-        setMinimumSize(new java.awt.Dimension(500, 440));
-        setPreferredSize(new java.awt.Dimension(500, 440));
+        setTitle("New Employee");
+        setMaximumSize(new java.awt.Dimension(501, 501));
+        setMinimumSize(new java.awt.Dimension(501, 501));
+        setName("newEmployee"); // NOI18N
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -103,7 +87,7 @@ public class EditEmployee extends javax.swing.JFrame {
                 btnCancelActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, -1, -1));
+        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 450, -1, -1));
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconSave.png"))); // NOI18N
         btnSave.setBorder(null);
@@ -120,7 +104,49 @@ public class EditEmployee extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, -1, -1));
+
+        lblUsername.setBackground(new java.awt.Color(255, 255, 255));
+        lblUsername.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(30, 30, 30));
+        lblUsername.setText("Username:");
+        getContentPane().add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+
+        lblPassword.setBackground(new java.awt.Color(255, 255, 255));
+        lblPassword.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(30, 30, 30));
+        lblPassword.setText("Password:");
+        getContentPane().add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, -1, -1));
+
+        txtPassword.setBackground(new java.awt.Color(242, 243, 248));
+        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtPassword.setForeground(new java.awt.Color(30, 30, 30));
+        txtPassword.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPassword.setBorder(null);
+        txtPassword.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, 260, 30));
+
+        txtUsername.setBackground(new java.awt.Color(242, 243, 248));
+        txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtUsername.setForeground(new java.awt.Color(30, 30, 30));
+        txtUsername.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtUsername.setBorder(null);
+        txtUsername.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtUsername.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtUsername.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtUsername.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 260, 30));
+
+        txtEmployeeName.setBackground(new java.awt.Color(242, 243, 248));
+        txtEmployeeName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtEmployeeName.setForeground(new java.awt.Color(30, 30, 30));
+        txtEmployeeName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtEmployeeName.setBorder(null);
+        txtEmployeeName.setMaximumSize(new java.awt.Dimension(220, 30));
+        txtEmployeeName.setMinimumSize(new java.awt.Dimension(220, 30));
+        txtEmployeeName.setPreferredSize(new java.awt.Dimension(220, 30));
+        txtEmployeeName.setSelectionColor(new java.awt.Color(119, 91, 200));
+        getContentPane().add(txtEmployeeName, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, 260, 30));
 
         chkDeactive.setBackground(new java.awt.Color(255, 255, 255));
         chkDeactive.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
@@ -132,7 +158,7 @@ public class EditEmployee extends javax.swing.JFrame {
                 chkDeactiveActionPerformed(evt);
             }
         });
-        getContentPane().add(chkDeactive, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, -1, -1));
+        getContentPane().add(chkDeactive, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, -1, -1));
 
         chkSetMod.setBackground(new java.awt.Color(255, 255, 255));
         chkSetMod.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
@@ -144,15 +170,15 @@ public class EditEmployee extends javax.swing.JFrame {
                 chkSetModActionPerformed(evt);
             }
         });
-        getContentPane().add(chkSetMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, -1, -1));
+        getContentPane().add(chkSetMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 390, -1, -1));
 
         lblAddress.setBackground(new java.awt.Color(255, 255, 255));
         lblAddress.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
         lblAddress.setForeground(new java.awt.Color(30, 30, 30));
         lblAddress.setText("Address:");
-        getContentPane().add(lblAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, -1, -1));
+        getContentPane().add(lblAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
 
-        txtAddress.setBackground(new java.awt.Color(250, 250, 250));
+        txtAddress.setBackground(new java.awt.Color(242, 243, 248));
         txtAddress.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtAddress.setForeground(new java.awt.Color(30, 30, 30));
         txtAddress.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -161,15 +187,15 @@ public class EditEmployee extends javax.swing.JFrame {
         txtAddress.setMinimumSize(new java.awt.Dimension(220, 30));
         txtAddress.setPreferredSize(new java.awt.Dimension(220, 30));
         txtAddress.setSelectionColor(new java.awt.Color(119, 91, 200));
-        getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 260, 30));
+        getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, 260, 30));
 
         lblEmail.setBackground(new java.awt.Color(255, 255, 255));
         lblEmail.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
         lblEmail.setForeground(new java.awt.Color(30, 30, 30));
         lblEmail.setText("Email:");
-        getContentPane().add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
+        getContentPane().add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, -1, -1));
 
-        txtEmail.setBackground(new java.awt.Color(250, 250, 250));
+        txtEmail.setBackground(new java.awt.Color(242, 243, 248));
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(30, 30, 30));
         txtEmail.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -178,9 +204,9 @@ public class EditEmployee extends javax.swing.JFrame {
         txtEmail.setMinimumSize(new java.awt.Dimension(220, 30));
         txtEmail.setPreferredSize(new java.awt.Dimension(220, 30));
         txtEmail.setSelectionColor(new java.awt.Color(119, 91, 200));
-        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 260, 30));
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 290, 260, 30));
 
-        txtPhoneNumber.setBackground(new java.awt.Color(250, 250, 250));
+        txtPhoneNumber.setBackground(new java.awt.Color(242, 243, 248));
         txtPhoneNumber.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtPhoneNumber.setForeground(new java.awt.Color(30, 30, 30));
         txtPhoneNumber.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -189,26 +215,21 @@ public class EditEmployee extends javax.swing.JFrame {
         txtPhoneNumber.setMinimumSize(new java.awt.Dimension(220, 30));
         txtPhoneNumber.setPreferredSize(new java.awt.Dimension(220, 30));
         txtPhoneNumber.setSelectionColor(new java.awt.Color(119, 91, 200));
-        getContentPane().add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 260, 30));
-
-        txtEmployeeName.setBackground(new java.awt.Color(255, 255, 255));
-        txtEmployeeName.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
-        txtEmployeeName.setForeground(new java.awt.Color(30, 30, 30));
-        getContentPane().add(txtEmployeeName, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 260, 30));
+        getContentPane().add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 240, 260, 30));
 
         lblEmployeeName.setBackground(new java.awt.Color(255, 255, 255));
         lblEmployeeName.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
         lblEmployeeName.setForeground(new java.awt.Color(30, 30, 30));
-        lblEmployeeName.setText("Edit Employee:");
-        getContentPane().add(lblEmployeeName, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+        lblEmployeeName.setText("Employee Name:");
+        getContentPane().add(lblEmployeeName, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
 
         lblPhoneNumber.setBackground(new java.awt.Color(255, 255, 255));
         lblPhoneNumber.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
         lblPhoneNumber.setForeground(new java.awt.Color(30, 30, 30));
         lblPhoneNumber.setText("Phone number:");
-        getContentPane().add(lblPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
+        getContentPane().add(lblPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, -1, -1));
 
-        bgEditEmployee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pnlEditEmployee.png"))); // NOI18N
+        bgEditEmployee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pnlNewEmployee.png"))); // NOI18N
         getContentPane().add(bgEditEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -245,6 +266,25 @@ public class EditEmployee extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         boolean isOk = true;
         String message = "";
+        if (txtUsername.getText().isEmpty()) {
+            isOk = false;
+            message = message + "- Username can't be empty.\n";
+        } else {
+            for (int i = 0; i < employeeModel.getList().size(); i++) {
+                if (employeeModel.getList().get(i).getUsername().equalsIgnoreCase(txtUsername.getText())) {
+                    isOk = false;
+                    message = message + "- Username must be unique.\n";
+                }
+            }
+        }
+        if (txtPassword.getText().isEmpty()) {
+            isOk = false;
+            message = message + "- Password can't be empty.\n";
+        }
+        if (txtEmployeeName.getText().isEmpty()) {
+            isOk = false;
+            message = message + "- Employee name can't be empty.\n";
+        }
         if (!Validation.phoneNumber(txtPhoneNumber.getText())) {
             isOk = false;
             message = message + "- Phone number must be 10+ digits.\n";
@@ -259,7 +299,7 @@ public class EditEmployee extends javax.swing.JFrame {
             try {
                 saveAllEmployee();
             } catch (SQLException ex) {
-                Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NewEmployee.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Saving employee successfully.", "Notification", 1);
             callHome();
@@ -276,7 +316,7 @@ public class EditEmployee extends javax.swing.JFrame {
         if (chkDeactive.isSelected()) {
             isActive = 1;
         }
-        employeeModel.updateEmployeeInfo(empIdEdit, txtPhoneNumber.getText(), txtEmail.getText(), txtAddress.getText(), role, isActive);
+        employeeModel.addEmployee(employeeModel.getFreeId(), txtUsername.getText(), HashPW.encode(txtPassword.getText()), txtEmployeeName.getText(), txtPhoneNumber.getText(), txtEmail.getText(), txtAddress.getText(), role, isActive, 1);
     }
 
     private void callHome() {
@@ -303,25 +343,25 @@ public class EditEmployee extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditEmployee().setVisible(true);
+                new NewEmployee().setVisible(true);
             }
         });
     }
 
-    private static int empIdEdit;
     private EmployeeModel employeeModel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bgEditEmployee;
@@ -332,11 +372,15 @@ public class EditEmployee extends javax.swing.JFrame {
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblEmployeeName;
+    private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPhoneNumber;
+    private javax.swing.JLabel lblUsername;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JLabel txtEmployeeName;
+    private javax.swing.JTextField txtEmployeeName;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhoneNumber;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -13,12 +13,12 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class HashPW {
 
-    public String encode(String input) {
+    public static String encode(String input) {
         String hash = BCrypt.hashpw(input, BCrypt.gensalt(9));
         return hash;
     }
 
-    public boolean decode(String input, String password) {
+    public static boolean decode(String input, String password) {
         return BCrypt.checkpw(input, password);
     }
 

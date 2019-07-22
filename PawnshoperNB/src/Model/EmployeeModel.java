@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.ConnectMSSQL;
+import Controller.HashPW;
 import Entity.Employee;
 
 import java.sql.*;
@@ -51,17 +52,13 @@ public class EmployeeModel {
     }
 
     public int getFreeId() {
-        for (int i = 0; i < employeeArrayList.size(); i++) {
-            if (i > employeeArrayList.get(i).getEmpId()) {
-                return i;
-            }
-        }
         return employeeArrayList.size() + 1;
     }
 
     public void addEmployee(int empId, String username, String ePassword, String fullName, String phoneNumber, String email, String eAddress, String eRole, int isActive, int storeId) throws SQLException {
         try {
-            sqlST = "INSERT INTO Employee(EmpId, Username, EPassword, FullName, PhoneNumber, Email, EAddress, ERole, IsActive, StoreId) VALUES (" + empId + ", '" + username + "', '" + ePassword + "', N'" + fullName + "', '" + phoneNumber + "', '" + email + "', '" + eAddress + "', '" + eRole + "', " + isActive + ", " + storeId + ")";
+            sqlST = "INSERT INTO Employee(EmpId, Username, EPassword, FullName, PhoneNumber, Email, EAddress, ERole, IsActive, StoreId) VALUES ("
+                    + empId + ", '" + username + "', '" + ePassword + "', N'" + fullName + "', '" + phoneNumber + "', '" + email + "', N'" + eAddress + "', '" + eRole + "', " + isActive + ", " + storeId + ")";
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             employeeArrayList.add(new Employee(empId, username, ePassword, fullName, phoneNumber, email, eAddress, eRole, isActive, storeId));
@@ -81,9 +78,10 @@ public class EmployeeModel {
         }
     }
 
-    protected void changePassword(String username, String password) throws SQLException {
+    public void changePassword(String username, String password) throws SQLException {
+        password = HashPW.encode(password);
         try {
-            sqlST = "UPDATE Employee SET EPassword = '" + password + "' WHERE Username = '" + username + "'";
+            sqlST = "UPDATE Employee SET EPassword = '" + password + "' WHERE Username='" + username + "'";
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadEmployee();

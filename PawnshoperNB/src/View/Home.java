@@ -1152,7 +1152,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewtEmployeeMouseExited
 
     private void btnNewtEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewtEmployeeActionPerformed
-        // TODO add your handling code here:
+        NewEmployee newEmployee = new NewEmployee();
+        newEmployee.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnNewtEmployeeActionPerformed
 
     private void btnEditEmployeeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditEmployeeMouseEntered
@@ -1166,7 +1168,6 @@ public class Home extends javax.swing.JFrame {
     private void btnEditEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditEmployeeActionPerformed
         empIdLoadToEditEmp = Integer.parseInt(cbSelectEmployee.getSelectedItem().toString());
         EditEmployee editEmployee = new EditEmployee();
-        System.out.println("Truyen: " + empIdLoadToEditEmp);
         editEmployee.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEditEmployeeActionPerformed
@@ -1180,7 +1181,10 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChangePasswordMouseExited
 
     private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
-        // TODO add your handling code here:
+        empIdLoadToEditEmp = Integer.parseInt(cbSelectEmployee.getSelectedItem().toString());
+        ChangePassword changePassword = new ChangePassword();
+        changePassword.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
 //    // PAWNED OFF
