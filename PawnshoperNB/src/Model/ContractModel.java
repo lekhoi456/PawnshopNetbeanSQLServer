@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 public class ContractModel {
 
     private static ArrayList<Contract> contractArrayList = new ArrayList<>();
+    private static StoreModel storeModel;
     private static Connection conn;
     private static Statement st;
     private static PreparedStatement pst;
@@ -84,9 +85,9 @@ public class ContractModel {
         }
     }
 
-    public void redeemContract(int contractId, int status, long totalMoney, String redeemAtDay) throws SQLException {
+    public void redeemContract(int contractId, String redeemAtDay) throws SQLException {
         try {
-            sqlST = "UPDATE Contract SET ContractId = " + contractId + ", Status = " + status + ", TotalMoney = " + totalMoney + ", RedeemAtDay = '" + redeemAtDay + "' WHERE ContractId=" + contractId;
+            sqlST = "UPDATE Contract SET Status = 1, RedeemAtDay = '" + redeemAtDay + "' WHERE ContractId=" + contractId;
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadContractFromDB();
@@ -114,35 +115,35 @@ public class ContractModel {
             }
         }
         loadContractFromDB();
-
+        setTrueCashFund();
     }
 
-    public int searchContractId(int keyword) {
+    public void setTrueCashFund() throws SQLException {
+        try {
+            storeModel = new StoreModel();
+        } catch (Exception ex) {
+            Logger.getLogger(ContractModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        long cashfund = 0;
+        long interestColected = 0;
         for (int i = 0; i < contractArrayList.size(); i++) {
-            if (contractArrayList.get(i).getStoreId() == keyword) {
-                return i;
+            if (contractArrayList.get(i).getRedeemAtDay().equals("0")) {
+                cashfund += contractArrayList.get(i).getTotalLoanAmount();
+
+            } else {
+                interestColected += contractArrayList.get(i).getTotalMoney() - contractArrayList.get(i).getTotalLoanAmount();
             }
         }
-        return -1;
-    }
-
-    public void printListContract() {
-        for (Contract contract : contractArrayList) {
-            System.out.println(contract.getContractId() + " | "
-                    + contract.getCustomerId() + " | "
-                    + contract.getPropertyType() + " | "
-                    + contract.getAssetName() + " | "
-                    + contract.getTotalLoanAmount() + " | "
-                    + contract.getInterestRate() + " | "
-                    + contract.getStartDate() + " | "
-                    + contract.getEndDate() + " | "
-                    + contract.getNote() + " | "
-                    + contract.getCashier() + " | "
-                    + contract.getStatus() + " | "
-                    + contract.getContractImage() + " | "
-                    + contract.getTotalMoney() + " | "
-                    + contract.getRedeemAtDay() + " | "
-                    + contract.getStoreId());
+        cashfund = storeModel.getList().get(0).getInvestmentCapital() - cashfund;
+        System.out.println("cashfund= " + cashfund + " | interestColected= " + interestColected);
+        try {
+            sqlST = "UPDATE Store SET CashFund = " + cashfund + ", InterestCollected = " + interestColected + " WHERE StoreId=1";
+            pst = conn.prepareStatement(sqlST);
+            pst.executeUpdate();
+            storeModel.getList().get(0).setCashFund(cashfund);
+            storeModel.getList().get(0).setInterestCollected(interestColected);
+        } catch (SQLException e) {
+            throw e;
         }
     }
 

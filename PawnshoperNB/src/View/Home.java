@@ -215,11 +215,14 @@ public class Home extends javax.swing.JFrame {
         this.assetModel = new AssetModel();
         tableContract = (DefaultTableModel) tblContract.getModel();
         tableContract.setRowCount(0);
+        cbContractId.removeAllItems();
         for (int i = 0; i < contractModel.getList().size(); i++) {
             if (contractModel.getList().get(i).getStatus() == statusDisplay) {
                 int contractId = contractModel.getList().get(i).getContractId();
+                if (statusDisplay == 0) {
+                    cbContractId.addItem(Integer.toString(contractId));
+                }
                 String customerName = customerModel.getCustomerName(contractModel.getList().get(i).getCustomerId());
-
                 String assetName = assetModel.getAssetName(contractModel.getList().get(i).getContractId());
 
                 long totalLoanAmount = contractModel.getList().get(i).getTotalLoanAmount();
@@ -281,8 +284,10 @@ public class Home extends javax.swing.JFrame {
         pnlCardPawnedOff = new javax.swing.JPanel();
         pnlScrollTableContract = new javax.swing.JScrollPane();
         tblContract = new javax.swing.JTable();
+        lblContractId = new javax.swing.JLabel();
         btnRedeem = new javax.swing.JButton();
         btnNewContract = new javax.swing.JButton();
+        cbContractId = new javax.swing.JComboBox<>();
         cbStatusDisplay = new javax.swing.JComboBox<>();
         btnExport = new javax.swing.JLabel();
         bgPawnedOff = new javax.swing.JLabel();
@@ -458,7 +463,7 @@ public class Home extends javax.swing.JFrame {
             tblDashboard.getColumnModel().getColumn(6).setPreferredWidth(80);
         }
 
-        pnlCardDashboard.add(pnlScrollTableDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 910, 250));
+        pnlCardDashboard.add(pnlScrollTableDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 920, 270));
 
         lblTotalInterestEarn.setBackground(new java.awt.Color(255, 255, 255));
         lblTotalInterestEarn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -598,6 +603,10 @@ public class Home extends javax.swing.JFrame {
 
         pnlCardPawnedOff.add(pnlScrollTableContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 970, 530));
 
+        lblContractId.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblContractId.setText("Contract ID:");
+        pnlCardPawnedOff.add(lblContractId, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, -1, -1));
+
         btnRedeem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconRedeem.png"))); // NOI18N
         btnRedeem.setBorder(null);
         btnRedeem.setBorderPainted(false);
@@ -615,7 +624,7 @@ public class Home extends javax.swing.JFrame {
                 btnRedeemActionPerformed(evt);
             }
         });
-        pnlCardPawnedOff.add(btnRedeem, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 60, -1, -1));
+        pnlCardPawnedOff.add(btnRedeem, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 60, -1, -1));
 
         btnNewContract.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconNewContact.png"))); // NOI18N
         btnNewContract.setBorder(null);
@@ -636,15 +645,27 @@ public class Home extends javax.swing.JFrame {
         });
         pnlCardPawnedOff.add(btnNewContract, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
+        cbContractId.setBackground(new java.awt.Color(243, 242, 248));
+        cbContractId.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        cbContractId.setBorder(null);
+        cbContractId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbContractIdActionPerformed(evt);
+            }
+        });
+        pnlCardPawnedOff.add(cbContractId, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 60, 90, 40));
+
         cbStatusDisplay.setBackground(new java.awt.Color(243, 242, 248));
         cbStatusDisplay.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         cbStatusDisplay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pawn", "Paid", "Expire" }));
+        cbStatusDisplay.setBorder(null);
+        cbStatusDisplay.setMaximumSize(new java.awt.Dimension(78, 32));
         cbStatusDisplay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbStatusDisplayActionPerformed(evt);
             }
         });
-        pnlCardPawnedOff.add(cbStatusDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(898, 70, 90, -1));
+        pnlCardPawnedOff.add(cbStatusDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(828, 62, 160, 40));
 
         btnExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconExportToExcel.png"))); // NOI18N
         btnExport.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1112,15 +1133,18 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRedeemMouseExited
 
     private void btnRedeemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedeemActionPerformed
-        // TODO add your handling code here:
+        contractSelected = Integer.parseInt(cbContractId.getSelectedItem().toString());
+        Redeem redeem = new Redeem();
+        redeem.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRedeemActionPerformed
 
     private void btnExportMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportMousePressed
-        JOptionPane.showMessageDialog(null, "Function is developing...", "Sorry", 0);
+        JOptionPane.showMessageDialog(null, "Function is developing...", "Sorry", 1);
     }//GEN-LAST:event_btnExportMousePressed
 
     private void btnChangeInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeInfoActionPerformed
-        JOptionPane.showMessageDialog(null, "Function is developing...", "Sorry", 0);
+        JOptionPane.showMessageDialog(null, "Function is developing...", "Sorry", 1);
     }//GEN-LAST:event_btnChangeInfoActionPerformed
 
     private void btnChangeInfoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangeInfoMouseEntered
@@ -1187,6 +1211,10 @@ public class Home extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
+    private void cbContractIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbContractIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbContractIdActionPerformed
+
 //    // PAWNED OFF
 //    /**
 //     * @param args the command line arguments
@@ -1235,6 +1263,7 @@ public class Home extends javax.swing.JFrame {
     private static String cashier;
     private int statusDisplay = 0;
     public static int empIdLoadToEditEmp = 0;
+    public static int contractSelected = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backgroundLeft;
     private javax.swing.JLabel bgCustomer;
@@ -1259,12 +1288,14 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel btnPawnedOff;
     private javax.swing.JButton btnRedeem;
     private javax.swing.JLabel btnStore;
+    private javax.swing.JComboBox<String> cbContractId;
     private javax.swing.JComboBox<String> cbSelectCustomerId;
     private javax.swing.JComboBox<String> cbSelectEmployee;
     private javax.swing.JComboBox<String> cbStatusDisplay;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblAmountOfContract;
     private javax.swing.JLabel lblCashFund;
+    private javax.swing.JLabel lblContractId;
     private javax.swing.JLabel lblInterestCollected;
     private javax.swing.JLabel lblInvestmentCapital;
     private javax.swing.JLabel lblMoneyInvestment;
