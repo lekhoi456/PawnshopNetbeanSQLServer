@@ -1,6 +1,7 @@
 package Model;
 
-import Controller.ConnectMSSQL;
+import Utills.ConnectMSSQL;
+import Utills.HashPW;
 import Entity.Employee;
 
 import java.sql.*;
@@ -50,18 +51,14 @@ public class EmployeeModel {
         }
     }
 
-    private int getFreeIndex() {
-        for (int i = 1; i < employeeArrayList.size(); i++) {
-            if (i != employeeArrayList.get(i - 1).getEmpId()) {
-                return i;
-            }
-        }
+    public int getFreeId() {
         return employeeArrayList.size() + 1;
     }
 
     public void addEmployee(int empId, String username, String ePassword, String fullName, String phoneNumber, String email, String eAddress, String eRole, int isActive, int storeId) throws SQLException {
         try {
-            sqlST = "INSERT INTO Employee(EmpId, Username, EPassword, FullName, PhoneNumber, Email, EAddress, ERole, IsActive, StoreId) VALUES (" + empId + ", '" + username + "', '" + ePassword + "', N'" + fullName + "', '" + phoneNumber + "', '" + email + "', '" + eAddress + "', '" + eRole + "', " + isActive + ", " + storeId + ")";
+            sqlST = "INSERT INTO Employee(EmpId, Username, EPassword, FullName, PhoneNumber, Email, EAddress, ERole, IsActive, StoreId) VALUES ("
+                    + empId + ", '" + username + "', '" + ePassword + "', N'" + fullName + "', '" + phoneNumber + "', '" + email + "', N'" + eAddress + "', '" + eRole + "', " + isActive + ", " + storeId + ")";
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             employeeArrayList.add(new Employee(empId, username, ePassword, fullName, phoneNumber, email, eAddress, eRole, isActive, storeId));
@@ -70,9 +67,9 @@ public class EmployeeModel {
         }
     }
 
-    public void updateEmployeeInfo(String username, String fullName, String phoneNumber, String email, String address) throws SQLException {
+    public void updateEmployeeInfo(int empId, String phoneNumber, String email, String address, String role, int isActive) throws SQLException {
         try {
-            sqlST = "UPDATE Employee SET FullName= N'" + fullName + "', PhoneNumber= '" + phoneNumber + "', Email= '" + email + "', EAddress= N'" + address + "' WHERE Username='" + username + "'";
+            sqlST = "UPDATE Employee SET PhoneNumber= '" + phoneNumber + "', Email= '" + email + "', EAddress= N'" + address + "', ERole = '" + role + "', IsActive = " + isActive + " WHERE EmpId=" + empId;
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadEmployee();
@@ -81,9 +78,10 @@ public class EmployeeModel {
         }
     }
 
-    protected void changePassword(String username, String password) throws SQLException {
+    public void changePassword(String username, String password) throws SQLException {
+        password = HashPW.encode(password);
         try {
-            sqlST = "UPDATE Employee SET EPassword = '" + password + "' WHERE Username = '" + username + "'";
+            sqlST = "UPDATE Employee SET EPassword = '" + password + "' WHERE Username='" + username + "'";
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadEmployee();

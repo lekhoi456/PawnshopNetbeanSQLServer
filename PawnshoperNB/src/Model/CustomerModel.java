@@ -1,12 +1,17 @@
 package Model;
 
-import Controller.ConnectMSSQL;
+import Utills.ConnectMSSQL;
 import Entity.Customer;
-import Entity.Employee;
+import Exception.CustomerException;
 
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Customer Model
+ *
+ * @author KhoiLeQuoc
+ */
 public class CustomerModel {
 
     private static ArrayList<Customer> customerArrayList = new ArrayList<>();
@@ -16,6 +21,11 @@ public class CustomerModel {
     private static ResultSet rs;
     private static String sqlST;
 
+    /**
+     * constructor
+     *
+     * @throws Exception
+     */
     public CustomerModel() throws Exception {
         try {
             conn = ConnectMSSQL.getConnection();
@@ -30,6 +40,11 @@ public class CustomerModel {
         }
     }
 
+    /**
+     * load customer from DB
+     *
+     * @throws SQLException
+     */
     private void loadCustomer() throws SQLException {
         sqlST = "SELECT * FROM Customer";
         rs = st.executeQuery(sqlST);
@@ -50,16 +65,21 @@ public class CustomerModel {
         }
     }
 
+    /**
+     * get free customer
+     *
+     * @return
+     */
     public int getFreeId() {
-        int freeId;
-        for (int i = 0; i < customerArrayList.size(); i++) {
-            if (i > customerArrayList.get(i).getCustomerId()) {
-                return i;
-            }
-        }
         return customerArrayList.size() + 1;
     }
 
+    /**
+     * get customer name
+     *
+     * @param customerId
+     * @return
+     */
     public String getCustomerName(int customerId) {
         for (int i = 0; i < customerArrayList.size(); i++) {
             if (customerId == customerArrayList.get(i).getCustomerId()) {
@@ -69,21 +89,51 @@ public class CustomerModel {
         return null;
     }
 
-    public void addCustomer(int customerId, String customerName, String phoneNumber, String socialId, String dateRange, String registeredPlace, String address, int isActive, String customerImage) throws SQLException {
+    /**
+     * add new customer to DB
+     *
+     * @param customerId
+     * @param customerName
+     * @param phoneNumber
+     * @param socialId
+     * @param dateRange
+     * @param registeredPlace
+     * @param address
+     * @param isActive
+     * @param customerImage
+     * @throws SQLException
+     * @throws Exception.CustomerException
+     */
+    public void addCustomer(int customerId, String customerName, String phoneNumber, String socialId, String dateRange, String registeredPlace, String address, int isActive, String customerImage) throws SQLException, CustomerException {
         try {
             sqlST = "INSERT INTO Customer(CustomerId, CustomerName, PhoneNumber, SocialId, DateRange, RegisteredPlace, Address, IsActive, CustomerImage) VALUES ("
                     + customerId + ", N'" + customerName + "', '" + phoneNumber + "', '" + socialId + "', '" + dateRange + "', N'" + registeredPlace + "', N'" + address + "', " + isActive + " , '" + customerImage + "')";
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
-            customerArrayList.add(new Customer(customerId, customerName, phoneNumber, socialId, dateRange, registeredPlace, address, isActive, customerImage));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        try {
+            customerArrayList.add(new Customer(customerId, customerName, phoneNumber, socialId, dateRange, registeredPlace, address, isActive, customerImage));
+        } catch (Exception e) {
+            throw new CustomerException("Can't add new customer to Arraylist");
+        }
     }
 
+    /**
+     * update customer info
+     *
+     * @param customerId
+     * @param phoneNumber
+     * @param socialId
+     * @param dateRange
+     * @param registeredPlace
+     * @param address
+     * @throws SQLException
+     */
     public void updateCustomerInfo(int customerId, String phoneNumber, String socialId, String dateRange, String registeredPlace, String address) throws SQLException {
         try {
-            sqlST = "UPDATE Customer SET PhoneNumber = '" + phoneNumber + "', SocialId = '" + socialId + "', DateRange = '" + dateRange + "', RegisteredPlace = N'" + registeredPlace + "', Address = N'" + address + "' WHERE CustomerId =" + customerId;
+            sqlST = "UPDATE Customer SET PhoneNumber = '" + phoneNumber + "', SocialId = '" + socialId + "', DateRange = '" + dateRange + "', RegisteredPlace = '" + registeredPlace + "', Address = N'" + address + "' WHERE CustomerId =" + customerId;
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadCustomer();
@@ -92,6 +142,33 @@ public class CustomerModel {
         }
     }
 
+    /**
+     * update phone and number of customer
+     *
+     * @param customerId
+     * @param phoneNumber
+     * @param address
+     * @param isActive
+     * @param customerImage
+     * @throws SQLException
+     */
+    public void updatePhoneAddress(int customerId, String phoneNumber, String address, int isActive, String customerImage) throws SQLException {
+        try {
+            sqlST = "UPDATE Customer SET PhoneNumber = '" + phoneNumber + "', Address = N'" + address + "', IsActive = " + isActive + ", CustomerImage = '" + customerImage + "' WHERE CustomerId =" + customerId;
+            pst = conn.prepareStatement(sqlST);
+            pst.executeUpdate();
+            loadCustomer();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * deactive account
+     *
+     * @param customerId
+     * @param isActive
+     */
     public void deactive(int customerId, int isActive) {
         try {
             sqlST = "UPDATE Customer SET IsActive = 0 WHERE CustomerId = " + customerId;
@@ -103,29 +180,11 @@ public class CustomerModel {
         }
     }
 
-    public int searchCustomerId(int keyword) {
-        for (int i = 0; i < customerArrayList.size(); i++) {
-            if (customerArrayList.get(i).getCustomerId() == keyword) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public void printListCustomer() {
-        for (Customer customer : customerArrayList) {
-            System.out.println(customer.getCustomerId() + "|"
-                    + customer.getCustomerName() + " | "
-                    + customer.getPhoneNumber() + " | "
-                    + customer.getSocialId() + " | "
-                    + customer.getDateRange() + " | "
-                    + customer.getRegisteredPlace() + " | "
-                    + customer.getAddress() + " | "
-                    + customer.getIsActive() + " | "
-                    + customer.getCustomerImage());
-        }
-    }
-
+    /**
+     * get customer array list
+     *
+     * @return
+     */
     public ArrayList<Customer> getList() {
         return customerArrayList;
     }

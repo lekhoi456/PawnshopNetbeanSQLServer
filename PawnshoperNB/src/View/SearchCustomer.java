@@ -9,12 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
+ * Search Customer JDialog is a child of NewContract
  *
  * @author KhoiLeQuoc
  */
@@ -47,7 +43,6 @@ public class SearchCustomer extends JDialog {
                 String phoneNumber = customerModel.getList().get(i).getPhoneNumber();
 
                 tableCustomer.insertRow(tblCustomer.getRowCount(), new Object[]{customerId, customerName, phoneNumber});
-                // System.out.println(customerId + " | " + customerName + " | " + phoneNumber);
             }
         }
 
@@ -71,7 +66,7 @@ public class SearchCustomer extends JDialog {
         setTitle("Search Customer");
         setMaximumSize(new java.awt.Dimension(500, 500));
         setMinimumSize(new java.awt.Dimension(500, 500));
-        setName("searchCustomer"); // NOI18N
+        setName("SearchCustomerDialog"); // NOI18N
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

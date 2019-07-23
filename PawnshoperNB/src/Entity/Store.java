@@ -1,25 +1,38 @@
 package Entity;
 
+/**
+ * Store entity
+ *
+ * @author KhoiLeQuoc
+ */
 public class Store {
+
     private int storeId;
     private String storeName;
     private String sAddress;
     private String representative;
     private long investmentCapital;
     private long cashFund;
-    private long pawnLoan;
-    private long estimatedProfit;
     private long interestCollected;
 
-    public Store(int storeId, String storeName, String sAddress, String representative, long investmentCapital, long cashFund, long pawnLoan, long estimatedProfit, long interestCollected) {
+    /**
+     * constructor
+     *
+     * @param storeId
+     * @param storeName
+     * @param sAddress
+     * @param representative
+     * @param investmentCapital
+     * @param cashFund
+     * @param interestCollected
+     */
+    public Store(int storeId, String storeName, String sAddress, String representative, long investmentCapital, long cashFund, long interestCollected) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.sAddress = sAddress;
         this.representative = representative;
         this.investmentCapital = investmentCapital;
         this.cashFund = cashFund;
-        this.pawnLoan = pawnLoan;
-        this.estimatedProfit = estimatedProfit;
         this.interestCollected = interestCollected;
     }
 
@@ -69,22 +82,6 @@ public class Store {
 
     public void setCashFund(long cashFund) {
         this.cashFund = cashFund;
-    }
-
-    public long getPawnLoan() {
-        return pawnLoan;
-    }
-
-    public void setPawnLoan(long pawnLoan) {
-        this.pawnLoan = pawnLoan;
-    }
-
-    public long getEstimatedProfit() {
-        return estimatedProfit;
-    }
-
-    public void setEstimatedProfit(long estimatedProfit) {
-        this.estimatedProfit = estimatedProfit;
     }
 
     public long getInterestCollected() {

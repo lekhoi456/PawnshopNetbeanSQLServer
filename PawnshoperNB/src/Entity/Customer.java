@@ -1,5 +1,10 @@
 package Entity;
 
+/**
+ * Customer entity
+ *
+ * @author KhoiLeQuoc
+ */
 public class Customer {
 
     private int customerId;
@@ -12,6 +17,19 @@ public class Customer {
     private int isActive;
     private String customerImage;
 
+    /**
+     * constructor
+     *
+     * @param customerId
+     * @param customerName
+     * @param phoneNumber
+     * @param socialId
+     * @param dateRange
+     * @param registeredPlace
+     * @param address
+     * @param isActive
+     * @param customerImage
+     */
     public Customer(int customerId, String customerName, String phoneNumber, String socialId, String dateRange, String registeredPlace, String address, int isActive, String customerImage) {
         this.customerId = customerId;
         this.customerName = customerName;

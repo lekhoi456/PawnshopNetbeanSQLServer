@@ -1,6 +1,12 @@
 package Entity;
 
+/**
+ * Employee entity
+ *
+ * @author KhoiLeQuoc
+ */
 public class Employee {
+
     private int empId;
     private String username;
     private String password;
@@ -12,6 +18,20 @@ public class Employee {
     private int isActive;
     private int storeId;
 
+    /**
+     * constructor
+     *
+     * @param empId
+     * @param username
+     * @param password
+     * @param fullName
+     * @param phoneNumber
+     * @param email
+     * @param eAddress
+     * @param eRole
+     * @param isActive
+     * @param storeId
+     */
     public Employee(int empId, String username, String password, String fullName, String phoneNumber, String email, String eAddress, String eRole, int isActive, int storeId) {
         this.empId = empId;
         this.username = username;

@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
-import Controller.CheckAccount;
+import Utills.CheckAccount;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
+ * Login frame
  *
  * @author KhoiLeQuoc
  */
@@ -27,7 +22,8 @@ public class Login extends javax.swing.JFrame {
         Image favicon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/favicon.png"));
         this.setIconImage(favicon);
         this.setVisible(true);
-
+        this.getRootPane().setDefaultButton(btnLogin);
+        checkAccount = new CheckAccount();
     }
 
     /**
@@ -39,7 +35,7 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bttLogin = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
         txtUsername = new javax.swing.JTextField();
         bttAbout = new javax.swing.JLabel();
@@ -56,13 +52,20 @@ public class Login extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1200, 700));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        bttLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bttLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bttLoginMousePressed(evt);
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/loginbtn.png"))); // NOI18N
+        btnLogin.setBorder(null);
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnLogin.setMaximumSize(new java.awt.Dimension(200, 38));
+        btnLogin.setMinimumSize(new java.awt.Dimension(200, 38));
+        btnLogin.setPreferredSize(new java.awt.Dimension(200, 38));
+        btnLogin.setRequestFocusEnabled(false);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
             }
         });
-        getContentPane().add(bttLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 420, 230, 40));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 420, 200, 38));
 
         txtPassword.setBackground(new java.awt.Color(255, 255, 255));
         txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -110,7 +113,8 @@ public class Login extends javax.swing.JFrame {
         lblLoginFail.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblLoginFail.setForeground(new java.awt.Color(255, 114, 18));
         lblLoginFail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(lblLoginFail, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 478, 310, 30));
+        lblLoginFail.setName("LoginFrame"); // NOI18N
+        getContentPane().add(lblLoginFail, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 470, 310, 30));
 
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/login.png"))); // NOI18N
         background.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -147,29 +151,6 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPasswordFocusLost
 
-    private void bttLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bttLoginMousePressed
-        CheckAccount ca = new CheckAccount();
-
-        try {
-            checkAccount = ca.isTrue(txtUsername.getText(), txtPassword.getText());
-        } catch (Exception ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (checkAccount == true) {
-            lblLoginFail.setText("Login successfully.");
-            Home home = new Home();
-            home.setVisible(true);
-            this.dispose();
-            home.pack();
-            home.setLocationRelativeTo(null);
-            this.dispose();
-        } else {
-            lblLoginFail.setText("Username or password is incorrect.");
-
-        }
-
-    }//GEN-LAST:event_bttLoginMousePressed
-
     private void backgroundMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backgroundMousePressed
         if (txtUsername.getText().equalsIgnoreCase("")) {
             txtUsername.setText("Username");
@@ -178,6 +159,26 @@ public class Login extends javax.swing.JFrame {
             txtPassword.setText("PasswordDefault");
         }
     }//GEN-LAST:event_backgroundMousePressed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        try {
+            isLogged = checkAccount.isTrue(txtUsername.getText(), txtPassword.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (isLogged == true) {
+            lblLoginFail.setText("Login successfully.");
+            userNameLogged = txtUsername.getText();
+            Home home = new Home();
+            home.setVisible(true);
+            this.dispose();
+            home.pack();
+            home.setLocationRelativeTo(null);
+            this.dispose();
+        } else {
+            lblLoginFail.setText("Please check the login account");
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,7 +191,7 @@ public class Login extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -213,12 +214,13 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-
-    public boolean checkAccount = false;
+    private static CheckAccount checkAccount;
+    public static String userNameLogged = "";
+    public static boolean isLogged = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JLabel bttAbout;
-    private javax.swing.JLabel bttLogin;
     private javax.swing.JLabel bttResetPassword;
     private javax.swing.JLabel lblLoginFail;
     private javax.swing.JPasswordField txtPassword;

@@ -1,6 +1,12 @@
 package Entity;
 
+/**
+ * Asset entity
+ *
+ * @author KhoiLeQuoc
+ */
 public class Asset {
+
     private int assetId;
     private int contractId;
     private String propertyType;
@@ -13,6 +19,21 @@ public class Asset {
     private String imei;
     private String passcode;
 
+    /**
+     * constructor
+     *
+     * @param assetId
+     * @param contractId
+     * @param propertyType
+     * @param assetName
+     * @param startDate
+     * @param endDate
+     * @param licensePlate
+     * @param chassisId
+     * @param enginesId
+     * @param imei
+     * @param passcode
+     */
     public Asset(int assetId, int contractId, String propertyType, String assetName, String startDate, String endDate, String licensePlate, String chassisId, String enginesId, String imei, String passcode) {
         this.assetId = assetId;
         this.contractId = contractId;

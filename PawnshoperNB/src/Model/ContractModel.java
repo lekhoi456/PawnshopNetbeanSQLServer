@@ -1,41 +1,64 @@
 package Model;
 
-import Controller.ConnectMSSQL;
+import Utills.ConnectMSSQL;
+import Utills.Validation;
 import Entity.Contract;
-
+import Exception.ContractException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ContractModel {
+/**
+ * Contract Model
+ *
+ * @author KhoiLeQuoc
+ */
+public final class ContractModel {
 
-    private static ArrayList<Contract> ContractArrayList = new ArrayList<>();
+    private static ArrayList<Contract> contractArrayList = new ArrayList<>();
+    private static StoreModel storeModel;
     private static Connection conn;
     private static Statement st;
     private static PreparedStatement pst;
     private static ResultSet rs;
     private static String sqlST;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public ContractModel() throws Exception {
+    /**
+     * constructor
+     *
+     * @throws java.sql.SQLException
+     */
+    public ContractModel() throws SQLException {
+        conn = ConnectMSSQL.getConnection();
+        st = conn.createStatement();
+        contractArrayList = new ArrayList<>();
+        pst = null;
+        rs = null;
+        sqlST = "";
+        loadContractFromDB();
         try {
-            conn = ConnectMSSQL.getConnection();
-            st = conn.createStatement();
-            ContractArrayList = new ArrayList<>();
-            pst = null;
-            rs = null;
-            sqlST = "";
-            loadContractFromDB();
-        } catch (Exception e) {
-            throw new Exception("Cannot load initialize Contract Model");
+            setTrueTotalMoney();
+        } catch (ParseException ex) {
+            Logger.getLogger(ContractModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * load contract from DB
+     *
+     * @throws SQLException
+     */
     private void loadContractFromDB() throws SQLException {
         sqlST = "SELECT * FROM Contract";
         rs = st.executeQuery(sqlST);
         if (rs.isBeforeFirst()) {
-            ContractArrayList.clear();
+            contractArrayList.clear();
             while (rs.next()) {
-                ContractArrayList.add(
+                contractArrayList.add(
                         new Contract(rs.getInt("ContractId"),
                                 rs.getInt("CustomerId"),
                                 rs.getString("PropertyType"),
@@ -44,6 +67,7 @@ public class ContractModel {
                                 rs.getLong("InterestRate"),
                                 rs.getString("StartDate"),
                                 rs.getString("EndDate"),
+                                rs.getLong("CreditPeriod"),
                                 rs.getString("Note"),
                                 rs.getString("Cashier"),
                                 rs.getInt("Status"),
@@ -53,32 +77,66 @@ public class ContractModel {
                                 rs.getInt("StoreId")));
             }
         }
+
     }
 
-    private int getFreeIndex() {
-        for (int i = 1; i < ContractArrayList.size(); i++) {
-            if (i != ContractArrayList.get(i - 1).getContractId()) {
-                return i;
-            }
-        }
-        return ContractArrayList.size() + 1;
+    /**
+     * get free contract ID
+     *
+     * @return
+     */
+    public int getFreeContractId() {
+        return contractArrayList.size() + 1;
     }
 
-    public void addContract(int contractId, int customerId, String propertyType, String assetName, long totalLoanAmount, long interestRate, String startDate, String endDate, String note, String cashier, int status, String contractImage, long totalMoney, String redeemAtDay, int storeId) throws SQLException {
+    /**
+     * add a new contract to DB
+     *
+     * @param contractId
+     * @param customerId
+     * @param propertyType
+     * @param assetName
+     * @param totalLoanAmount
+     * @param interestRate
+     * @param startDate
+     * @param endDate
+     * @param creditPeriod
+     * @param note
+     * @param cashier
+     * @param status
+     * @param contractImage
+     * @param totalMoney
+     * @param redeemAtDay
+     * @param storeId
+     * @throws SQLException
+     * @throws ContractException
+     */
+    public void addContract(int contractId, int customerId, String propertyType, String assetName, long totalLoanAmount, long interestRate, String startDate, String endDate, long creditPeriod, String note, String cashier, int status, String contractImage, long totalMoney, String redeemAtDay, int storeId) throws SQLException, ContractException {
         try {
-            sqlST = "INSERT INTO Contract(ContractId, CustomerId, PropertyType, AssetName, TotalLoanAmount, InterestRate, StartDate, EndDate, Note, Cashier, Status, ContractImage, TotalMoney, RedeemAtDay, StoreId) VALUES ("
-                    + +contractId + ", " + customerId + ", N'" + propertyType + "', N'" + assetName + "', " + totalLoanAmount + ", " + interestRate + ", '" + startDate + "', '" + endDate + "', N'" + note + "' , N'" + cashier + "', " + status + ", '" + contractImage + "', " + totalMoney + ", '" + redeemAtDay + "', " + storeId + ")";
+            sqlST = "INSERT INTO Contract(ContractId, CustomerId, PropertyType, AssetName, TotalLoanAmount, InterestRate, StartDate, EndDate, CreditPeriod, Note, Cashier, Status, ContractImage, TotalMoney, RedeemAtDay, StoreId) VALUES ("
+                    + contractId + ", " + customerId + ", N'" + propertyType + "', N'" + assetName + "', " + totalLoanAmount + ", " + interestRate + ", '" + startDate + "', '" + endDate + "', " + creditPeriod + ", N'" + note + "' , N'" + cashier + "', " + status + ", '" + contractImage + "', " + totalMoney + ", '" + redeemAtDay + "', " + storeId + ")";
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
-            ContractArrayList.add(new Contract(contractId, customerId, propertyType, assetName, totalLoanAmount, interestRate, startDate, endDate, note, cashier, status, contractImage, totalMoney, redeemAtDay, storeId));
         } catch (SQLException e) {
             throw e;
         }
+        try {
+            contractArrayList.add(new Contract(contractId, customerId, propertyType, assetName, totalLoanAmount, interestRate, startDate, endDate, creditPeriod, note, cashier, status, contractImage, totalMoney, redeemAtDay, storeId));
+        } catch (Exception e) {
+            throw new ContractException("Can't add a new contract to ContractArrayList");
+        }
     }
 
-    public void redeemContract(int contractId, int status, long totalMoney, String redeemAtDay) throws SQLException {
+    /**
+     * redeem contract and edit data in DB
+     *
+     * @param contractId
+     * @param redeemAtDay
+     * @throws SQLException
+     */
+    public void redeemContract(int contractId, String redeemAtDay) throws SQLException {
         try {
-            sqlST = "UPDATE Contract SET ContractId = " + contractId + ", Status = " + status + ", TotalMoney = " + totalMoney + ", RedeemAtDay = '" + redeemAtDay + "' WHERE ContractId=" + contractId;
+            sqlST = "UPDATE Contract SET Status = 1, RedeemAtDay = '" + redeemAtDay + "' WHERE ContractId=" + contractId;
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadContractFromDB();
@@ -87,36 +145,74 @@ public class ContractModel {
         }
     }
 
-    public int searchContractId(int keyword) {
-        for (int i = 0; i < ContractArrayList.size(); i++) {
-            if (ContractArrayList.get(i).getStoreId() == keyword) {
-                return i;
+    /**
+     * set true total money to DB
+     *
+     * @throws SQLException
+     * @throws ParseException
+     */
+    public void setTrueTotalMoney() throws SQLException, ParseException {
+        java.util.Date now = Validation.currentDate();
+        for (int i = 0; i < contractArrayList.size(); i++) {
+            if (contractArrayList.get(i).getStatus() != 1) {
+                java.util.Date stDate = dateFormat.parse(contractArrayList.get(i).getStartDate());
+                long datePawnToNow = Validation.getDifferenceDays(stDate, now);
+                long interestToNow = datePawnToNow * contractArrayList.get(i).getInterestRate();
+                long totalMoney = interestToNow + contractArrayList.get(i).getTotalLoanAmount();
+                try {
+                    sqlST = "UPDATE Contract SET TotalMoney = " + totalMoney + " WHERE ContractId=" + contractArrayList.get(i).getContractId();
+                    pst = conn.prepareStatement(sqlST);
+                    pst.executeUpdate();
+                    contractArrayList.get(i).setTotalMoney(totalMoney);
+                } catch (SQLException e) {
+                    throw e;
+                }
             }
         }
-        return -1;
+        loadContractFromDB();
+        setTrueCashFund();
     }
 
-    public void printListContract() {
-        for (Contract contract : ContractArrayList) {
-            System.out.println(contract.getContractId() + " | "
-                    + contract.getCustomerId() + " | "
-                    + contract.getPropertyType() + " | "
-                    + contract.getAssetName() + " | "
-                    + contract.getTotalLoanAmount() + " | "
-                    + contract.getInterestRate() + " | "
-                    + contract.getStartDate() + " | "
-                    + contract.getEndDate() + " | "
-                    + contract.getNote() + " | "
-                    + contract.getCashier() + " | "
-                    + contract.getStatus() + " | "
-                    + contract.getContractImage() + " | "
-                    + contract.getTotalMoney() + " | "
-                    + contract.getRedeemAtDay() + " | "
-                    + contract.getStoreId());
+    /**
+     * set true cash fund money to DB
+     *
+     * @throws SQLException
+     */
+    public void setTrueCashFund() throws SQLException {
+        try {
+            storeModel = new StoreModel();
+        } catch (Exception ex) {
+            Logger.getLogger(ContractModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        long cashfund = 0;
+        long interestColected = 0;
+        for (int i = 0; i < contractArrayList.size(); i++) {
+            if (contractArrayList.get(i).getRedeemAtDay().equals("0")) {
+                cashfund += contractArrayList.get(i).getTotalLoanAmount();
+
+            } else {
+                interestColected += contractArrayList.get(i).getTotalMoney() - contractArrayList.get(i).getTotalLoanAmount();
+            }
+        }
+        cashfund = storeModel.getList().get(0).getInvestmentCapital() - cashfund;
+        System.out.println("cashfund= " + cashfund + " | interestColected= " + interestColected);
+        try {
+            sqlST = "UPDATE Store SET CashFund = " + cashfund + ", InterestCollected = " + interestColected + " WHERE StoreId=1";
+            pst = conn.prepareStatement(sqlST);
+            pst.executeUpdate();
+            storeModel.getList().get(0).setCashFund(cashfund);
+            storeModel.getList().get(0).setInterestCollected(interestColected);
+        } catch (SQLException e) {
+            throw e;
         }
     }
 
+    /**
+     * get Contract array list
+     *
+     * @return
+     */
     public ArrayList<Contract> getList() {
-        return ContractArrayList;
+        return contractArrayList;
     }
 }

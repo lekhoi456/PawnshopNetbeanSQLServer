@@ -1,12 +1,18 @@
 package Model;
 
-import Controller.ConnectMSSQL;
+import Utills.ConnectMSSQL;
 import Entity.Store;
-
+import Exception.StoreException;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Store model
+ *
+ * @author KhoiLeQuoc
+ */
 public class StoreModel {
+
     private static ArrayList<Store> storeArrayList = new ArrayList<>();
     private static Connection conn;
     private static Statement st;
@@ -14,6 +20,11 @@ public class StoreModel {
     private static ResultSet rs;
     private static String sqlST;
 
+    /**
+     * constructor
+     *
+     * @throws Exception
+     */
     public StoreModel() throws Exception {
         try {
             conn = ConnectMSSQL.getConnection();
@@ -21,57 +32,87 @@ public class StoreModel {
             storeArrayList = new ArrayList<>();
             pst = null;
             rs = null;
-            sqlST= "";
+            sqlST = "";
             loadStore();
         } catch (Exception e) {
             throw new Exception("Cannot load initialize Store Model");
         }
     }
 
+    /**
+     * load store from DB
+     *
+     * @throws SQLException
+     */
     private void loadStore() throws SQLException {
-            sqlST = "SELECT * FROM Store";
-            rs = st.executeQuery(sqlST);
-            if (rs.isBeforeFirst()) {
-                storeArrayList.clear();
-                while (rs.next()) {
-                    storeArrayList.add(
-                            new Store(rs.getInt("StoreId"),
-                                    rs.getString("StoreName"),
-                                    rs.getString("SAddress"),
-                                    rs.getString("Representative"),
-                                    rs.getLong("InvestmentCapital"),
-                                    rs.getLong("CashFund"),
-                                    rs.getLong("PawnLoan"),
-                                    rs.getLong("EstimatedProfit"),
-                                    rs.getLong("InterestCollected")));
-                }
-            }
-    }
-
-    private int getFreeSize() {
-        for (int i = 1; i <= storeArrayList.size(); i++) {
-            if (i != storeArrayList.get(i -1).getStoreId()) {
-                return i;
+        sqlST = "SELECT * FROM Store";
+        rs = st.executeQuery(sqlST);
+        if (rs.isBeforeFirst()) {
+            storeArrayList.clear();
+            while (rs.next()) {
+                storeArrayList.add(
+                        new Store(rs.getInt("StoreId"),
+                                rs.getString("StoreName"),
+                                rs.getString("SAddress"),
+                                rs.getString("Representative"),
+                                rs.getLong("InvestmentCapital"),
+                                rs.getLong("CashFund"),
+                                rs.getLong("InterestCollected")));
             }
         }
+    }
+
+    /**
+     * get free store id
+     *
+     * @return
+     */
+    public int getFreeStoreId() {
         return storeArrayList.size() + 1;
     }
 
-
-    public void addStore(int storeId, String storeName, String sAddress, String representative, long investmentCapital, long cashFund, long pawnLoan, long estimatedProfit, long interestCollected) throws SQLException {
+    /**
+     * add store to DB
+     *
+     * @param storeId
+     * @param storeName
+     * @param sAddress
+     * @param representative
+     * @param investmentCapital
+     * @param cashFund
+     * @param interestCollected
+     * @throws SQLException
+     */
+    public void addStore(int storeId, String storeName, String sAddress, String representative, long investmentCapital, long cashFund, long interestCollected) throws SQLException, StoreException {
         try {
-            sqlST = "INSERT INTO Store(StoreId, StoreName, SAddress, Representative, InvestmentCapital, CashFund, PawnLoan, EstimatedProfit, InterestCollected) VALUES (" + storeId + ", N'" + storeName + "' , N'" + sAddress + "', N'" + representative + "', " + investmentCapital + ", " + cashFund + ", "+ pawnLoan + ", " + estimatedProfit + ", " + interestCollected + ")";
+            sqlST = "INSERT INTO Store(StoreId, StoreName, SAddress, Representative, InvestmentCapital, CashFund, InterestCollected) VALUES (" + storeId + ", N'" + storeName + "' , N'" + sAddress + "', N'" + representative + "', " + investmentCapital + ", " + cashFund + ", " + interestCollected + ")";
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
-            storeArrayList.add(new Store(storeId, storeName, sAddress, representative, investmentCapital, cashFund, pawnLoan, estimatedProfit, interestCollected));
         } catch (SQLException e) {
             throw e;
         }
+        try {
+            storeArrayList.add(new Store(storeId, storeName, sAddress, representative, investmentCapital, cashFund, interestCollected));
+        } catch (Exception e) {
+            throw new StoreException("Can't add new store");
+        }
     }
 
-    public void updateStore(int storeId, String storeName, String sAddress, String representative, long investmentCapital, long cashFund, long pawnLoan, long estimatedProfit, long interestCollected) throws SQLException {
+    /**
+     * update store
+     *
+     * @param storeId
+     * @param storeName
+     * @param sAddress
+     * @param representative
+     * @param investmentCapital
+     * @param cashFund
+     * @param interestCollected
+     * @throws SQLException
+     */
+    public void updateStore(int storeId, String storeName, String sAddress, String representative, long investmentCapital, long cashFund, long interestCollected) throws SQLException {
         try {
-            sqlST = "UPDATE Store SET StoreName = N'" + storeName + "', SAddress= N'" + sAddress + "', Representative=N'" + representative + "', InvestmentCapital=" + investmentCapital + ", CashFund=" + cashFund + ", PawnLoan="+ pawnLoan + ", EstimatedProfit=" + estimatedProfit + ", InterestCollected=" + interestCollected + " WHERE StoreId=" + storeId;
+            sqlST = "UPDATE Store SET StoreName = N'" + storeName + "', SAddress = N'" + sAddress + "', Representative = N'" + representative + "', InvestmentCapital = " + investmentCapital + ", CashFund = " + cashFund + ", InterestCollected = " + interestCollected + " WHERE StoreId = " + storeId;
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadStore();
@@ -80,40 +121,11 @@ public class StoreModel {
         }
     }
 
-    public void deleteStore(int storeId) throws SQLException {
-        try {
-            sqlST = "DELETE FROM Store WHERE StoreId=" + storeId;
-            pst = conn.prepareStatement(sqlST);
-            pst.executeUpdate();
-            storeArrayList.remove(searchStore(storeId));
-        } catch (SQLException e) {
-            throw e;
-        }
-    }
-
-    public int searchStore(int keyword) {
-        for (int i=0; i < storeArrayList.size(); i++) {
-            if (storeArrayList.get(i).getStoreId() == keyword) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public void printListStore() {
-        for (Store store : storeArrayList) {
-            System.out.println(store.getStoreId() + "|" +
-                    store.getStoreName() + "|" +
-                    store.getsAddress() + "|" +
-                    store.getRepresentative() + "|" +
-                    store.getInvestmentCapital() + "|" +
-                    store.getCashFund() + "|" +
-                    store.getPawnLoan() + "|" +
-                    store.getEstimatedProfit() + "|" +
-                    store.getInterestCollected());
-        }
-    }
-
+    /**
+     * get store array list
+     *
+     * @return
+     */
     public ArrayList<Store> getList() {
         return storeArrayList;
     }
