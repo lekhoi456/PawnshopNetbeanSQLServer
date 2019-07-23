@@ -28,7 +28,6 @@ public class Login extends javax.swing.JFrame {
         this.setVisible(true);
         this.getRootPane().setDefaultButton(btnLogin);
         checkAccount = new CheckAccount();
-
     }
 
     /**

@@ -292,10 +292,10 @@
                             <Column editable="false" title="Contract ID" type="java.lang.Integer"/>
                             <Column editable="false" title="Customer" type="java.lang.String"/>
                             <Column editable="false" title="Asset" type="java.lang.String"/>
-                            <Column editable="false" title="Loan Amount" type="java.lang.Long"/>
+                            <Column editable="false" title="Loan Amount" type="java.lang.String"/>
                             <Column editable="false" title="End Date" type="java.lang.String"/>
-                            <Column editable="false" title="Interest to now" type="java.lang.Long"/>
-                            <Column editable="false" title="Total Money" type="java.lang.Long"/>
+                            <Column editable="false" title="Interest to now" type="java.lang.String"/>
+                            <Column editable="false" title="Total Money" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -584,11 +584,11 @@
                             <Column editable="false" title="Contract ID" type="java.lang.Integer"/>
                             <Column editable="false" title="Customer" type="java.lang.String"/>
                             <Column editable="false" title="Asset" type="java.lang.String"/>
-                            <Column editable="false" title="Loan Amount" type="java.lang.Long"/>
+                            <Column editable="false" title="Loan Amount" type="java.lang.String"/>
                             <Column editable="false" title="Start Date" type="java.lang.String"/>
                             <Column editable="false" title="End Date" type="java.lang.String"/>
-                            <Column editable="false" title="Interest to now" type="java.lang.Long"/>
-                            <Column editable="false" title="Total Money" type="java.lang.Long"/>
+                            <Column editable="false" title="Interest to now" type="java.lang.String"/>
+                            <Column editable="false" title="Total Money" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -616,7 +616,7 @@
                               <Renderer/>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="false">
-                              <Title value="Start Date"/>
+                              <Title/>
                               <Editor/>
                               <Renderer/>
                             </Column>

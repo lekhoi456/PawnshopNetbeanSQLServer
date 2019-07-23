@@ -47,7 +47,6 @@ public class SearchCustomer extends JDialog {
                 String phoneNumber = customerModel.getList().get(i).getPhoneNumber();
 
                 tableCustomer.insertRow(tblCustomer.getRowCount(), new Object[]{customerId, customerName, phoneNumber});
-                // System.out.println(customerId + " | " + customerName + " | " + phoneNumber);
             }
         }
 

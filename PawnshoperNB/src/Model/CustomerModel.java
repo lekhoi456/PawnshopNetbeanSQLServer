@@ -81,7 +81,18 @@ public class CustomerModel {
 
     public void updateCustomerInfo(int customerId, String phoneNumber, String socialId, String dateRange, String registeredPlace, String address) throws SQLException {
         try {
-            sqlST = "UPDATE Customer SET PhoneNumber = '" + phoneNumber + "', SocialId = '" + socialId + "', DateRange = '" + dateRange + "', RegisteredPlace = N'" + registeredPlace + "', Address = N'" + address + "' WHERE CustomerId =" + customerId;
+            sqlST = "UPDATE Customer SET PhoneNumber = '" + phoneNumber + "', SocialId = '" + socialId + "', DateRange = '" + dateRange + "', RegisteredPlace = '" + registeredPlace + "', Address = N'" + address + "' WHERE CustomerId =" + customerId;
+            pst = conn.prepareStatement(sqlST);
+            pst.executeUpdate();
+            loadCustomer();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePhoneAddress(int customerId, String phoneNumber, String address, int isActive, String customerImage) throws SQLException {
+        try {
+            sqlST = "UPDATE Customer SET PhoneNumber = '" + phoneNumber + "', Address = N'" + address + "', IsActive = " + isActive + ", CustomerImage = '" + customerImage + "' WHERE CustomerId =" + customerId;
             pst = conn.prepareStatement(sqlST);
             pst.executeUpdate();
             loadCustomer();

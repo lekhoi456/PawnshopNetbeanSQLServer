@@ -143,7 +143,6 @@ public class ChangePassword extends javax.swing.JFrame {
         boolean isOk = true;
         String message = "";
         try {
-            System.out.println("userNameLogged: " + userNameLogged);
             canChange = checkAccount.isTrue(userNameLogged, txtOldPW.getText());
         } catch (Exception ex) {
             Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,15 +169,14 @@ public class ChangePassword extends javax.swing.JFrame {
                 Logger.getLogger(EditEmployee.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Change password successfully.", "Notification", 1);
-            callHome();
+            callLogin();
         }
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void callHome() {
-        Home home = new Home();
-        home.cardLayout.show(home.pnlRight, "pnlCardEmployee");
-        home.setVisible(true);
+    private void callLogin() {
+        Login login = new Login();
+        login.setVisible(true);
         this.dispose();
     }
 

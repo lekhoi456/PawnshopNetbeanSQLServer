@@ -80,14 +80,14 @@ public class Home extends javax.swing.JFrame {
                 int contractId = contractModel.getList().get(i).getContractId();
                 String customerName = customerModel.getCustomerName(contractModel.getList().get(i).getCustomerId());
                 String assetName = assetModel.getAssetName(contractModel.getList().get(i).getContractId());
-                long totalLoanAmount = contractModel.getList().get(i).getTotalLoanAmount();
+                String totalLoanAmount = Validation.convertLongFormat(contractModel.getList().get(i).getTotalLoanAmount());
                 String startDate = contractModel.getList().get(i).getStartDate();
                 String endDate = contractModel.getList().get(i).getEndDate();
                 Date now = Validation.currentDate();
                 Date stDate = dateFormat.parse(startDate);
                 long datePawnToNow = Validation.getDifferenceDays(stDate, now);
-                long interestToNow = datePawnToNow * contractModel.getList().get(i).getInterestRate();
-                long totalMoney = contractModel.getList().get(i).getTotalMoney();
+                String interestToNow = Validation.convertLongFormat(datePawnToNow * contractModel.getList().get(i).getInterestRate());
+                String totalMoney = Validation.convertLongFormat(contractModel.getList().get(i).getTotalMoney());
 
                 tableDashboard.insertRow(tblDashboard.getRowCount(), new Object[]{
                     contractId,
@@ -170,7 +170,6 @@ public class Home extends javax.swing.JFrame {
             for (int i = 0; i < employeeModel.getList().size(); i++) {
                 int empId = employeeModel.getList().get(i).getEmpId();
                 cbSelectEmployee.addItem(Integer.toString(empId));
-                System.out.println("Selected item: " + cbSelectEmployee.getSelectedItem());
                 String userName = employeeModel.getList().get(i).getUsername();
                 String fullName = employeeModel.getList().get(i).getFullName();
                 String phoneNumber = employeeModel.getList().get(i).getPhoneNumber();
@@ -225,15 +224,15 @@ public class Home extends javax.swing.JFrame {
                 String customerName = customerModel.getCustomerName(contractModel.getList().get(i).getCustomerId());
                 String assetName = assetModel.getAssetName(contractModel.getList().get(i).getContractId());
 
-                long totalLoanAmount = contractModel.getList().get(i).getTotalLoanAmount();
+                String totalLoanAmount = Validation.convertLongFormat(contractModel.getList().get(i).getTotalLoanAmount());
                 String startDate = contractModel.getList().get(i).getStartDate();
                 String endDate = contractModel.getList().get(i).getEndDate();
                 Date now = Validation.currentDate();
                 Date stDate = dateFormat.parse(startDate);
                 long datePawnToNow = Validation.getDifferenceDays(stDate, now);
 
-                long interestToNow = datePawnToNow * contractModel.getList().get(i).getInterestRate();
-                long totalMoney = contractModel.getList().get(i).getTotalMoney();
+                String interestToNow = Validation.convertLongFormat(datePawnToNow * contractModel.getList().get(i).getInterestRate());
+                String totalMoney = Validation.convertLongFormat(contractModel.getList().get(i).getTotalMoney());
 
                 tableContract.insertRow(tblContract.getRowCount(), new Object[]{
                     contractId,
@@ -245,7 +244,6 @@ public class Home extends javax.swing.JFrame {
                     interestToNow,
                     totalMoney
                 });
-                // System.out.println(contractId + " | " + customerName + " | " + assetName + " | " + totalLoanAmount + " | " + startDate + " | " + endDate + " | " + interestToNow + " | " + totalMoney + " | " + status);
             }
         }
 
@@ -421,7 +419,7 @@ public class Home extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.Long.class, java.lang.Long.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -553,7 +551,7 @@ public class Home extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.Long.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false
@@ -592,7 +590,6 @@ public class Home extends javax.swing.JFrame {
             tblContract.getColumnModel().getColumn(3).setPreferredWidth(70);
             tblContract.getColumnModel().getColumn(4).setResizable(false);
             tblContract.getColumnModel().getColumn(4).setPreferredWidth(60);
-            tblContract.getColumnModel().getColumn(4).setHeaderValue("Start Date");
             tblContract.getColumnModel().getColumn(5).setResizable(false);
             tblContract.getColumnModel().getColumn(5).setPreferredWidth(40);
             tblContract.getColumnModel().getColumn(6).setResizable(false);
@@ -1164,7 +1161,10 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditCustomerMouseExited
 
     private void btnEditCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCustomerActionPerformed
-        // TODO add your handling code here:
+        customerSelected = Integer.parseInt(cbSelectCustomerId.getSelectedItem().toString());
+        EditCustomer editPhoneNumber = new EditCustomer();
+        editPhoneNumber.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnEditCustomerActionPerformed
 
     private void btnNewtEmployeeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewtEmployeeMouseEntered
@@ -1176,6 +1176,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewtEmployeeMouseExited
 
     private void btnNewtEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewtEmployeeActionPerformed
+
         NewEmployee newEmployee = new NewEmployee();
         newEmployee.setVisible(true);
         this.dispose();
@@ -1264,6 +1265,7 @@ public class Home extends javax.swing.JFrame {
     private int statusDisplay = 0;
     public static int empIdLoadToEditEmp = 0;
     public static int contractSelected = 0;
+    public static int customerSelected = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backgroundLeft;
     private javax.swing.JLabel bgCustomer;

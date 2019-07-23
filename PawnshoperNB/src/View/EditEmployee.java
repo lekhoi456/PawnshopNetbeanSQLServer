@@ -36,7 +36,6 @@ public class EditEmployee extends javax.swing.JFrame {
     public void setEmployeeInfo() {
         try {
             employeeModel = new EmployeeModel();
-            System.out.println("Emp ID la: " + empIdEdit);
             for (int i = 0; i < employeeModel.getList().size(); i++) {
                 if (employeeModel.getList().get(i).getEmpId() == empIdEdit) {
                     txtEmployeeName.setText(employeeModel.getList().get(i).getFullName());
